@@ -1,0 +1,4 @@
+01-31-2024 12:53:00.560 DEBUG [finalproj.TestLogger] - Hello debugging.
+01-31-2024 12:53:00.561 INFO  [finalproj.TestLogger] - hello info
+01-31-2024 12:53:08.849 DEBUG [finalproj.TestLogger] - Hello debugging.
+01-31-2024 12:53:08.852 INFO  [finalproj.TestLogger] - hello info
