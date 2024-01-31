@@ -3,6 +3,16 @@ package finalproj;
 import java.util.Scanner;
 
 public class Player1 {
+
+	String name = "Chef";
+
+	Room room;
+
+	PlayerActions action;
+
+	Inventory inventory;
+
+	Item itemInHand;
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
