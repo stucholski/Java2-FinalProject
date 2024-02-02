@@ -20,6 +20,7 @@ public class Npc {
         Npc npc = new Npc();
         npc.setAge(25);
         npc.setName("Chuck");
+
         System.out.println(npc.age);
         System.out.println(npc.name);
     }
