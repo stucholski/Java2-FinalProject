@@ -7,7 +7,7 @@ public class TimeCounterTest {
         TimeCounter timeCounter1 = new TimeCounter();
         System.out.println("Elapsed Time 1: " + timeCounter1.getElapsedTime() + " milliseconds");
 
-        // Introduce some delay to simulate time passing
+        // delay to simulate time passing
         try {
             Thread.sleep(2000); // Sleep for 2 seconds
         } catch (InterruptedException e) {
@@ -24,7 +24,7 @@ public class TimeCounterTest {
         SingletonTimeCounter singletonTimeCounter1 = SingletonTimeCounter.getInstance();
         System.out.println("Elapsed Time 1: " + singletonTimeCounter1.getElapsedTime() + " milliseconds");
 
-        // Introduce some delay to simulate time passing
+        // delay to simulate time passing
         try {
             Thread.sleep(2000); // Sleep for 2 seconds
         } catch (InterruptedException e) {

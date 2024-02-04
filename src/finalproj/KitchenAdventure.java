@@ -28,13 +28,13 @@ public class KitchenAdventure implements KitchenActions{
         System.out.println(playerName + " decides to prepare a delicious meal in the kitchen.");
     }
 
-    // Example: getName method
+
     public String getPlayerName() {
         return playerName;
     }
 
     public static void main(String[] args) {
-        // Example usage
+
         KitchenAdventure playerOne = new KitchenAdventure("Alice");
         playerOne.enterKitchen();
         playerOne.exploreKitchen();

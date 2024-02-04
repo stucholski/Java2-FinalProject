@@ -1,6 +1,6 @@
 package finalproj;
 
-// Modified TimeCounter class implementing the Singleton pattern
+//  TimeCounter class implementing the Singleton pattern
 public class SingletonTimeCounter {
     private static SingletonTimeCounter instance;
     private long startTime;

@@ -1,6 +1,6 @@
 package finalproj;
 
-// Simple class for a time counter
+// class for a time counter
 public class TimeCounter {
     private long startTime;
 
@@ -9,7 +9,7 @@ public class TimeCounter {
         startTime = System.currentTimeMillis();
     }
 
-    // Method to get the elapsed time since the creation of the object
+    // Method to get the elapsed time since the creation of object
     public long getElapsedTime() {
         return System.currentTimeMillis() - startTime;
     }
