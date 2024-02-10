@@ -35,7 +35,7 @@ public class KitchenAdventure implements KitchenActions{
 
     public static void main(String[] args) {
 
-        KitchenAdventure playerOne = new KitchenAdventure("Alice");
+        KitchenAdventure playerOne = new KitchenAdventure("Mary");
         playerOne.enterKitchen();
         playerOne.exploreKitchen();
         playerOne.interactWithObjects();

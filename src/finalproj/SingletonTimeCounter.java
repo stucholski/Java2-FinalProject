@@ -1,19 +1,25 @@
 package finalproj;
 
-//  TimeCounter class implementing the Singleton pattern
+//  TimeCounter class implementing the Singleton concept
 public class SingletonTimeCounter {
-    private static SingletonTimeCounter instance;
+    private static  volatile SingletonTimeCounter instance;
     private long startTime;
+
 
     // Private constructor to prevent instantiation from outside the class
     private SingletonTimeCounter() {
         startTime = System.currentTimeMillis();
     }
 
-    // Method to get the instance of SingletonTimeCounter
-    public static SingletonTimeCounter getInstance() {
+    // Method to get the instance of SingletonTimeCounter using double checked locking
+    public static  SingletonTimeCounter getInstance() {
         if (instance == null) {
-            instance = new SingletonTimeCounter();
+            synchronized(SingletonTimeCounter.class){
+                if(instance ==null){
+                    instance = new SingletonTimeCounter();
+                }
+            }
+
         }
         return instance;
     }
