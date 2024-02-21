@@ -38,47 +38,47 @@ public class SetupDerbyDatabase {
                 System.out.println("Could not drop table players, players table does not exist.");
             }
             try {
-                stmt.executeUpdate("DROP TABLE quests");
+                stmt.executeUpdate("DROP TABLE Rooms");
             }catch(Exception e) {
-                System.out.println("Could not drop table quests, quests table does not exist.");
+                System.out.println("Could not drop table room, room table does not exist.");
             }
 
-            stmt.executeUpdate("CREATE TABLE ingredients ("
+            stmt.executeUpdate("CREATE TABLE Ingredients ("
                     + "id INTEGER PRIMARY KEY, "
                     + "name VARCHAR(255), "
                     + "quantity INTEGER)");
 
-            stmt.executeUpdate("CREATE TABLE utencils ("
+            stmt.executeUpdate("CREATE TABLE Utencils ("
                     + "id INTEGER PRIMARY KEY, "
                     + "name VARCHAR(255), "
                     + "is_available boolean)");
-            stmt.executeUpdate("CREATE TABLE players ("
+            stmt.executeUpdate("CREATE TABLE Players ("
+                    + "id INTEGER PRIMARY KEY, "
                     + "name VARCHAR(225), "
                     + "score INT)");
-            stmt.executeUpdate("CREATE TABLE quests ("
+            stmt.executeUpdate("CREATE TABLE Quests ("
                     + "id INTEGER PRIMARY KEY, "
                     + "name VARCHAR(255), "
                     + "objectives VARCHAR(1000), "
                     + "rewards VARCHAR(500))");
 
-            stmt.executeUpdate("INSERT INTO ingredients VALUES (1, 'Tomatoes', 5)");
-            stmt.executeUpdate("INSERT INTO ingredients VALUES (2, 'Cilantro', 6)");
+            stmt.executeUpdate("INSERT INTO Ingredients VALUES (1, 'Tomatoes', 5)");
+            stmt.executeUpdate("INSERT INTO Ingredients VALUES (2, 'Cilantro', 6)");
 
-            stmt.executeUpdate("INSERT INTO utencils VALUES (1,'Spantula', true)");
-            stmt.executeUpdate("INSERT INTO utencils VALUES (2,'Tongs', true)");
+            stmt.executeUpdate("INSERT INTO Utencils VALUES (1,'Spantula', true)");
+            stmt.executeUpdate("INSERT INTO Utencils VALUES (2,'Tongs', true)");
 
-            stmt.executeUpdate("INSERT INTO players VALUES (1, 1, 'Ester', '2002-09-09 10:36:00')");
-            stmt.executeUpdate("INSERT INTO players VALUES (2, 1, 'Eddie', '2010-06-08 01:24:00')");
+            stmt.executeUpdate("INSERT INTO Players VALUES (1, 'Chuck', 200)");
+            stmt.executeUpdate("INSERT INTO Players VALUES (2, 'Larry', 100)");
 
-            stmt.executeUpdate("INSERT INTO animal VALUES (5, 2, 'Zoe', '2005-11-12 03:44:00')");
+            stmt.executeUpdate("INSERT INTO Quests VALUES (1, 'Cook Steak', 'Gather all the ingredients and cook a steak.', 'Golden Spatula')");
 
             //String userInput = "Elsa'DROP TABLE * '";
 
             ResultSet rs = stmt.executeQuery("select id, "
-                    + "							species_id, "
                     + "								  name, "
-                    + "								date_born "
-                    + "							from animal");
+                    + "								score"
+                    + "							from Players");
             //+ "							where name = '" + userInput + "'");
 
             //scaryDelete(conn, "Elsa");
@@ -88,8 +88,8 @@ public class SetupDerbyDatabase {
             safeDelete(conn, "any' or 1 = 1 or name='any");
 
             while(rs.next()) {
-                System.out.println("Animal Name: " + rs.getString("name"));
-                System.out.println("Date Born:" + rs.getString("date_born"));
+                System.out.println("Player Name: " + rs.getString("name"));
+                System.out.println("Score:" + rs.getString("score"));
                 System.out.println(rs.getInt(1));
             }
 
@@ -117,7 +117,7 @@ public class SetupDerbyDatabase {
 
     private static void safeDelete(Connection conn, String name) throws SQLException{
 
-        PreparedStatement ps = conn.prepareStatement("delete from animal "
+        PreparedStatement ps = conn.prepareStatement("delete from Players "
                 + "where name = ?");
 
         ps.setString(1, name);

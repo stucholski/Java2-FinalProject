@@ -1,7 +1,17 @@
 package finalproj;
 
+
+// Interface for the Kitchen
+interface KitchenActions {
+    void enterKitchen();
+    void exploreKitchen();
+    void interactWithObjects();
+    void prepareMeal();
+}
+
 public class KitchenAdventure implements KitchenActions{
     private String playerName;
+
 
     // Constructor
     public KitchenAdventure(String playerName) {
@@ -41,5 +51,17 @@ public class KitchenAdventure implements KitchenActions{
         playerOne.interactWithObjects();
         playerOne.prepareMeal();
 
+/**
+ * Kitchen Adventure Test
+ */
+
+        Utensil spatula = new Utensil("Spatula");
+        Ingredient onion = new Ingredient("Onion");
+
+        // instance of Chef with the Utensil and Ingredient
+        Chef chefRicky = new Chef("Chef Ricky", spatula, onion);
+
+        // Test the Chef's cooking method
+        chefRicky.cook();
     }
 }

@@ -62,6 +62,8 @@ public class WelcomePage {
         System.out.println("User Locale: " + userLocale);
         displayMessage(currentTime, userLocale);
         System.out.println("---------------------");
+
+
     }
 }
 

@@ -1,5 +1,54 @@
 package finalproj;
 // Test class to test the TimeCounter
+
+class SingletonTimeCounter {
+    private static  volatile SingletonTimeCounter instance;
+    private long startTime;
+
+
+    // Private constructor to prevent instantiation from outside the class
+    private SingletonTimeCounter() {
+        startTime = System.currentTimeMillis();
+    }
+
+    // Method to get the instance of SingletonTimeCounter using double checked locking
+    public static  SingletonTimeCounter getInstance() {
+        if (instance == null) {
+            synchronized(SingletonTimeCounter.class){
+                if(instance ==null){
+                    instance = new SingletonTimeCounter();
+                }
+            }
+
+        }
+        return instance;
+    }
+
+    // Method to get the elapsed time since the creation of the object
+    public long getElapsedTime() {
+        return System.currentTimeMillis() - startTime;
+    }
+
+}
+class TimeCounter{
+        private long startTime;
+
+        // Constructor initializes the start time
+        public TimeCounter() {
+            startTime = System.currentTimeMillis();
+        }
+
+        // Method to get the elapsed time since the creation of object
+        public long getElapsedTime() {
+            return System.currentTimeMillis() - startTime;
+        }
+
+        public class TimeCounterTest {
+
+        }
+    }
+
+
 public class TimeCounterTest {
     public static void main(String[] args) {
         // Test TimeCounter
