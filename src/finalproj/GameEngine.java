@@ -12,8 +12,8 @@ public class GameEngine {
 
     private ArrayList<Room>map;
     private Player1 player;
-    List<String> actions = new ArrayList<>(Arrays.asList("take", "drop", "cook", "look", "cut", "stir", "kitchen", "pantry", "freezer", "dining"));
-    List<String> items = new ArrayList<>(Arrays.asList("knife", "spoon", "sauce", "noodles", "beef", "pan", "plate"));
+    List<String> actions = new ArrayList<>(Arrays.asList("take", "drop", "cook", "look", "cut", "stir", "enter"));
+    List<String> items = new ArrayList<>(Arrays.asList("knife", "spoon", "sauce", "noodles", "beef", "pan", "plate", "kitchen", "pantry", "freezer", "dining"));
 
     /**
      * The game method that creates the rooms and the player.
@@ -96,6 +96,7 @@ public class GameEngine {
             output = ReviewInput(input);
 
             System.out.println(output);
+            ReviewCommand(input.toString());
         }while (!"quit".equals(input));
 
     }
@@ -157,8 +158,8 @@ public class GameEngine {
         String noun;
         String quit;
         /** These arrays should direct to the enums once these are built out**/
-        List<String> verbs = new ArrayList<>(Arrays.asList("take", "drop"));
-        List<String> nouns = new ArrayList<>(Arrays.asList("knife", "spoon", "bowl", "plate"));
+        List<String> verbs = new ArrayList<>(Arrays.asList("take", "drop", "cook", "look", "cut", "stir", "enter"));
+        List<String> nouns = new ArrayList<>(Arrays.asList("knife", "spoon", "sauce", "noodles", "beef", "pan", "plate", "kitchen", "pantry", "freezer", "dining"));
         if(wordlist.size() > 2){
             System.out.println("Please enter a 2 word command.");
         }else {
@@ -181,6 +182,41 @@ public class GameEngine {
                     }
                 }
             }
+        }
+    }
+
+    public static void ReviewCommand(String input){
+
+        switch (input){
+            case "enter dining":
+                //assign player location to dining
+                //display room desc in console
+                break;
+            case "enter kitchen":
+                //assign player location to kitchen
+                //display room description in console
+                break;
+            case "enter pantry":
+                //assign player location to pantry
+                //display room description in console
+                break;
+            case "enter freezer":
+                //assign player location to freezer
+                //display room description in console
+                break;
+            case "take noodles":
+                //add to inventory
+                break;
+            case "take sauce":
+                //add to inventory
+                break;
+            case "take meat":
+                //add to inventory
+                break;
+            case "take plate":
+                //add to inventory
+                break;
+
         }
     }
 
