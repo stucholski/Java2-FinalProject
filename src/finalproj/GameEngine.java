@@ -1,8 +1,5 @@
 package finalproj;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,18 +9,18 @@ public class GameEngine {
 
     private ArrayList<Room>map;
     private Player1 player;
-    List<String> actions = new ArrayList<>(Arrays.asList("take", "drop", "cook", "look", "cut", "stir", "enter"));
-    List<String> items = new ArrayList<>(Arrays.asList("knife", "spoon", "sauce", "noodles", "beef", "pan", "plate", "kitchen", "pantry", "freezer", "dining"));
+    List<String> verbs = new ArrayList<>(Arrays.asList("take", "drop", "cook", "look", "cut", "stir", "enter"));
+    List<String> nouns = new ArrayList<>(Arrays.asList("knife", "spoon", "sauce", "noodles", "beef", "pan", "plate", "kitchen", "pantry", "freezer", "dining"));
 
     /**
      * The game method that creates the rooms and the player.
      */
     public GameEngine(){
         this.map = new ArrayList<Room>();
-        map.add(new Room("Kitchen", "A brightly-lit room with tools and utensils for cooking."));
-        map.add(new Room("Pantry", "A dark room with jars, cans, and boxes of food."));
-        map.add(new Room("Freezer", "A cold, dimly-lit room with frozen meet, vegetables, and fruit"));
-        map.add(new Room("Dining", "A softly-lit room with tables and places set for dining."));
+        map.add(new Room("Kitchen", "A brightly-lit room with tools and utensils for cooking.", 1, 0, 0, 0));
+        map.add(new Room("Pantry", "A dark room with jars, cans, and boxes of food.", 0, 0, 1, 0));
+        map.add(new Room("Freezer", "A cold, dimly-lit room with frozen meet, vegetables, and fruit", 0, 0, 0, 1));
+        map.add(new Room("Dining", "A softly-lit room with tables and places set for dining.", 0, 1,0,0));
 
         player = new Player1("Chef", map.get(0));
     }
@@ -45,61 +42,70 @@ public class GameEngine {
         p.setRoom(r);
     }
 
-    public Room move(Player1 player, Rooms rooms){
+    public int move(Player1 player, Rooms rooms){
 
-        Room move;
+        Room r = player.getRoom();
+        int exit;
 
         switch (rooms){
             case Kitchen:
-                move = map.get(0);
+                exit = r.getKitchen();
                 break;
             case Pantry:
-                move = map.get(1);
+                exit = r.getPantry();
                 break;
             case Dining:
-                move = map.get(3);
+                exit = r.getDining();
                 break;
             case Freezer:
-                move = map.get(2);
+                exit = r.getFreezer();
                 break;
             default:
-                move = map.get(0);
+                exit = Rooms.NOROOMS;
+                break;
         }
-            return move;
+        if (exit != Rooms.NOROOMS){
+            movePlayerTo(player, map.get(exit));
+        }
+            return exit;
+    }
+
+    public int moveTo(Rooms r){
+        return move(player, r);
+    }
+
+    private void goKitchen(){
+        updateOutput(moveTo(Rooms.Kitchen));
+    }
+    private void goPantry(){
+        updateOutput(moveTo(Rooms.Pantry));
+    }
+    private void goFreezer(){
+        updateOutput(moveTo(Rooms.Freezer));
+    }
+    private void goDining(){
+        updateOutput(moveTo(Rooms.Dining));
     }
 
 
-    /**
-     * The main method starts the program and accepts user input.
-     * After input is received, it is passed to the ReviewInput method.
-     * If quit is entered, the program stops.
-     * @param args
-     * @throws IOException
-     */
-    //Begins the game and calls the class to review player input
-    public static void main(String[] args) throws IOException {
-        /**Scanner in = new Scanner(System.in);**/
-        BufferedReader in;
-        String input;
-        String output;
 
-        System.out.println("Welcome to the text-based adventure game. You are a chef at an Italian restaurant. A customer ordered a plate of spaghetti. ");
-        System.out.println("The ingredients for this dish are noodles, sauce, and meat. You are in the kitchen, and you may enter the pantry, dining room, or freezer. ");
-        System.out.println("What do you do?");
 
-        /**String a = in.nextLine();**/
-        in = new BufferedReader(new InputStreamReader(System.in));
+    void updateOutput(int roomNumber){
+        String s;
+        if(roomNumber == Rooms.NOROOMS){
+            s = "No room to enter.";
+        } else {
+            Room r = getPlayer().getRoom();
+            s = "You have entered "
+                    + r.getName() + ". " + r.getDescription();
+        }
+        System.out.println(s);
+    }
 
-        do {
-            System.out.println("> ");
-            input = in.readLine();
-            output = ReviewInput(input);
-
-            System.out.println(output);
-            ReviewCommand(input.toString());
-        }while (!"quit".equals(input));
+    public void displayStart(){
 
     }
+
 
     /**
      * This is the next method after the user enters input.
@@ -110,7 +116,7 @@ public class GameEngine {
      * @param inputstr
      * @return
      */
-    public static String ReviewInput(String inputstr){
+    public String ReviewInput(String inputstr){
         List<String> wordlist;
         String next = "What do you do next?";
         String lowstr = inputstr.trim().toLowerCase();
@@ -133,7 +139,7 @@ public class GameEngine {
      * @param input
      * @return
      */
-    public static List<String> WordList(String input){
+    public List<String> WordList(String input){
         String delims = " ";
         List<String> stringList = new ArrayList<>();
         StringTokenizer word = new StringTokenizer(input, delims);
@@ -146,6 +152,9 @@ public class GameEngine {
         return stringList;
     }
 
+    //Implement a verb processor method for movement
+    // To do
+
     /**
      * The ParseVerbNoun method is called in the ReviewInput method after input is found and the WordList method
      * splits the input into words. This method checks to make sure the input words are in the list/enum.
@@ -153,13 +162,13 @@ public class GameEngine {
      * Position 0 in the array is the verb, and position 1 is the noun.
      * @param wordlist
      */
-    public static void ParseVerbNoun(List<String> wordlist){
+    public void ParseVerbNoun(List<String> wordlist){
         String verb;
         String noun;
         String quit;
         /** These arrays should direct to the enums once these are built out**/
-        List<String> verbs = new ArrayList<>(Arrays.asList("take", "drop", "cook", "look", "cut", "stir", "enter"));
-        List<String> nouns = new ArrayList<>(Arrays.asList("knife", "spoon", "sauce", "noodles", "beef", "pan", "plate", "kitchen", "pantry", "freezer", "dining"));
+        //List<String> verbs = new ArrayList<>(Arrays.asList("take", "drop", "cook", "look", "cut", "stir", "enter"));
+        //List<String> nouns = new ArrayList<>(Arrays.asList("knife", "spoon", "sauce", "noodles", "beef", "pan", "plate", "kitchen", "pantry", "freezer", "dining"));
         if(wordlist.size() > 2){
             System.out.println("Please enter a 2 word command.");
         }else {
@@ -185,40 +194,7 @@ public class GameEngine {
         }
     }
 
-    public static void ReviewCommand(String input){
 
-        switch (input){
-            case "enter dining":
-                //assign player location to dining
-                //display room desc in console
-                break;
-            case "enter kitchen":
-                //assign player location to kitchen
-                //display room description in console
-                break;
-            case "enter pantry":
-                //assign player location to pantry
-                //display room description in console
-                break;
-            case "enter freezer":
-                //assign player location to freezer
-                //display room description in console
-                break;
-            case "take noodles":
-                //add to inventory
-                break;
-            case "take sauce":
-                //add to inventory
-                break;
-            case "take meat":
-                //add to inventory
-                break;
-            case "take plate":
-                //add to inventory
-                break;
-
-        }
-    }
 
 
 
