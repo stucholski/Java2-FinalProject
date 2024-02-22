@@ -9,7 +9,7 @@ public class PlayerActions {
 		boolean continuePlaying = true; //Added, If it is true, the game will keep running
 		//If it is changed to false the game will stop running
 
-		Room room = new Room();
+		//Room room = new Room();
 		Help help = new Help();
 		PickUp pickup = new PickUp();
 
@@ -21,7 +21,7 @@ public class PlayerActions {
 
 			switch (action) {
 				case "move to room":
-					room.enterRoom();
+					//room.enterRoom();
 					break;
 				case "view inventory":
 					//Implement viewInventory method

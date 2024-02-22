@@ -4,7 +4,7 @@ public enum Rooms {
     Kitchen,
     Pantry,
     Freezer,
-    Dining,
+    Dining;
 
-    NOROOM
-}
+    public static final int NOROOMS = -1;
+};
