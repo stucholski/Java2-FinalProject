@@ -9,8 +9,8 @@ public class GameEngine {
 
     private ArrayList<Room>map;
     private Player1 player;
-    List<String> verbs = new ArrayList<>(Arrays.asList("take", "drop", "cook", "look", "cut", "stir", "enter"));
-    List<String> nouns = new ArrayList<>(Arrays.asList("knife", "spoon", "sauce", "noodles", "beef", "pan", "plate", "kitchen", "pantry", "freezer", "dining"));
+    List<String> verbs = new ArrayList<>(Arrays.asList("take", "drop", "cook", "look", "cut", "stir", "kitchen", "pantry", "freezer", "dining"));
+    List<String> nouns = new ArrayList<>(Arrays.asList("knife", "spoon", "sauce", "noodles", "beef", "pan", "plate"));
 
     /**
      * The game method that creates the rooms and the player.
@@ -102,8 +102,13 @@ public class GameEngine {
         System.out.println(s);
     }
 
+    //Method to display at start - called by RestaurantGame class
+    //Could be an intro to the game and introducing the player as the head chef
+    //Lay out ground rules and clues
     public void displayStart(){
 
+        String introMessage = "Welcome to the restaurant adventure game. The commands are...Enter 'quit' to end game.";
+        System.out.println(introMessage);
     }
 
 
@@ -118,18 +123,21 @@ public class GameEngine {
      */
     public String ReviewInput(String inputstr){
         List<String> wordlist;
+        String message = "Goodbye";
         String next = "What do you do next?";
         String lowstr = inputstr.trim().toLowerCase();
 
-        if (lowstr.equals("")) {
-            next = "You must enter a command";
+        if (!lowstr.equals("quit")) {
+            if(lowstr.equals("")){
+            message = "You must enter a command";
 
         }else {
-            wordlist = WordList(lowstr);
+                wordlist = WordList(lowstr);
 
-            ParseVerbNoun(wordlist);
+                message = ParseEntry(wordlist);
+            }
         }
-        return next;
+        return message;
     }
 
     /**
@@ -154,6 +162,47 @@ public class GameEngine {
 
     //Implement a verb processor method for movement
     // To do
+    public String ProcessAction(List<String>wordlist){
+        String verb;
+        String action = "";
+        verb = wordlist.get(0);
+        if(!verbs.contains(verb)){
+            action = "Sorry, " +verb + " is not a known verb.";
+        }else {
+            switch (verb) {
+                case "kitchen":
+                    goKitchen();
+                    break;
+                case "dining":
+                    goDining();
+                    break;
+                case "pantry":
+                    goPantry();
+                    break;
+                case "freezer":
+                    goFreezer();
+                    break;
+                //Add more cases for 1 word verb actions if needed
+                //Expand out default for more complexity
+                default:
+                    action = "You have entered "+verb;
+            }
+        }
+        return action;
+    }
+
+    public String ParseEntry(List<String> wordlist){
+        String message;
+        if(wordlist.size() == 1){
+            message = ProcessAction(wordlist);
+        }else if (wordlist.size() == 2){
+            message = ParseVerbNoun(wordlist);
+        }else {
+            message = "Please only enter 2 word commands.";
+        }
+        return message;
+    }
+
 
     /**
      * The ParseVerbNoun method is called in the ReviewInput method after input is found and the WordList method
@@ -162,41 +211,30 @@ public class GameEngine {
      * Position 0 in the array is the verb, and position 1 is the noun.
      * @param wordlist
      */
-    public void ParseVerbNoun(List<String> wordlist){
+    public String ParseVerbNoun(List<String> wordlist){
         String verb;
         String noun;
-        String quit;
-        /** These arrays should direct to the enums once these are built out**/
-        //List<String> verbs = new ArrayList<>(Arrays.asList("take", "drop", "cook", "look", "cut", "stir", "enter"));
-        //List<String> nouns = new ArrayList<>(Arrays.asList("knife", "spoon", "sauce", "noodles", "beef", "pan", "plate", "kitchen", "pantry", "freezer", "dining"));
-        if(wordlist.size() > 2){
-            System.out.println("Please enter a 2 word command.");
-        }else {
-            verb = wordlist.get(0);
-            if (verb.equals("quit")){
-                System.out.println("Goodbye.");
+        String message = "";
 
-            }else {
+        verb = wordlist.get(0);
+        noun = wordlist.get(1);
 
-                if (!verbs.contains(verb)){
-                    System.out.println("Sorry, "+verb + " is not a known verb.");
-                }else {
-                    noun = wordlist.get(1);
-                    if(!nouns.contains(noun)){
-                        System.out.println("Sorry, "+noun + " is not a known noun.");
-
-                    }else {
-                        System.out.println("You selected: " + verb + " " + noun + ".");
-                        /**System.out.println("What do you do next?");**/
-                    }
-                }
-            }
+        //To do: build out actions based on verb+noun combination
+        //for example - add to inventory if taken, remove from inventory if dropped, etc.
+        //Can add noun and verb to a map (dictionary)
+        if(!verbs.contains(verb)){
+            message = "Sorry, "+verb+" is not a known verb.";
         }
+        if (!nouns.contains(noun)){
+            message += (noun + " is not a known noun.");
+        }else{
+            switch (noun){
+
+            }
+
+        }
+        return message;
     }
-
-
-
-
 
 }
 
