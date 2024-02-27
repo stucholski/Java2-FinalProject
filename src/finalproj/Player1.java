@@ -16,6 +16,8 @@ public class Player1 {
 	private int id;
 	private String name;
 	private int score;
+	private int health;
+
 
 	/**
 	method to display player info after it has been retrieved from the database
