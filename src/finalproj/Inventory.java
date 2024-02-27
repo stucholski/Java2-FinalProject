@@ -1,35 +1,28 @@
 package finalproj;
 
 
-public class Inventory {
+/**
+ * This class is used to create all types of inventories in the game.
+ */
+public abstract class Inventory implements InventoryStack{
 
-
-    final private int MAX_CAPACITTY = 50; // capacity limit to check every time we put in an item
-
-    Item[] items = new Item[50]; // array to store items
-
-
-    // Take item out
-    public Item getItem(String itemName){
-
-        // need to create logic to retrieve item by name
-
-
-        return Item.knife;
+    @Override
+    public float getRemainingCapacity() {
+        return 0;
     }
 
+    @Override
+    public Item getItem(String itemName) {
+        return null;
+    }
 
-    // Put item in
-    //      need to check current capacity
-    //      get current capacity plus new item's weight
-    //      and compare to MAX_CAPACITY
+    @Override
+    public boolean storeItem(Item item) {
+        return true;
+    }
 
+    @Override
+    public void showAllItems() {
 
-
-
-
-
-
-
-
+    }
 }

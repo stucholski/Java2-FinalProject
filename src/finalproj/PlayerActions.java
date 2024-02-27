@@ -6,8 +6,7 @@ public class PlayerActions {
 	
 	public void reviewActions() {
 		Scanner in = new Scanner(System.in);
-		
-		Room room = new Room();
+
 		Help help = new Help();
 		PickUp pickup = new PickUp();
 		
@@ -15,13 +14,13 @@ public class PlayerActions {
 		
 		switch (a.trim()) {
 		case "move to room":
-			room.enterRoom();
+			//room.enterRoom();
 			break;
 		case "view inventory":
-			room.enterRoom();
+			//room.enterRoom();
 			break;
 		case "chop vegetables":
-			room.enterRoom();
+			//room.enterRoom();
 			break;
 		case "pick up noodles":
 			pickup.pickUpText();

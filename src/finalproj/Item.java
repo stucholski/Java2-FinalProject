@@ -1,25 +1,28 @@
 package finalproj;
 
 public enum Item {
-    knife("knife", 1),
+    Knife("knife", 1, "utensil"),
 
-    chicken("chicken",5),
+    Chicken("chicken",5, "ingredient"),
 
-    salt("salt", .03f),
+    Salt("salt", .03f, "utensil"),
 
-    plate("plate", .5f),
+    Plate("plate", .5f, "utensil"),
 
-    sugar("sugar",.3f),
+    Sugar("sugar",.3f, "ingredient"),
 
-    fryPan("fry pan",3);
+    FryPan("fry pan",3, "utensil");
 
     private final float weight;
 
     private final String name;
 
-    private Item(final String name, final float weight ){
+    private final String type;
+
+    private Item(String name, float weight, String type){
         this.weight = weight;
         this.name = name;
+        this.type = type;
     }
 
     public float getWeight(){
