@@ -20,6 +20,10 @@ public class Start {
         Scanner in = new Scanner((System.in));
         String playerCommand;
 
+        // **********************************
+        // Set up the help assistance
+        Help help = new Help();
+
 
         // ***********************************
         // Instantiate rooms
@@ -40,7 +44,7 @@ public class Start {
         // ************************************
         // Get the username
         // We need validation for the name
-        System.out.println("Oh! before you leave to the kitchen, what is your name? ");
+        System.out.println("\nOh! before you leave to the kitchen, what is your name? ");
         playerName = in.nextLine().trim();
 
 
@@ -55,6 +59,11 @@ public class Start {
         playerCommand = in.nextLine().trim().toLowerCase();
 
         System.out.println("You typed " + playerCommand);
+        if(playerCommand.equals("help")){
+            help.showCommandList();
+        }
+
+
 
 
         // ***************************

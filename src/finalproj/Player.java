@@ -6,8 +6,6 @@ public class Player {
 
 	Room currentRoom;
 
-	PlayerActions actions; // to-do
-
 	PlayerInventory inventory;
 
 	Item itemInHand; // to-do
@@ -20,7 +18,6 @@ public class Player {
 	 */
 	public Player(String name, Room currentRoom) {
 		this.currentRoom = currentRoom;
-		actions = new PlayerActions();
 		inventory = new PlayerInventory(50, "Chef's Inventory");
 		this.name = name;
 	}

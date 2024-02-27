@@ -20,12 +20,12 @@ public class Communications {
         String message;
         if (language.equals("es")) {
             message = getTimeOfDayGreeting(locale, localTime) + ". Este es tu nuevo restaurante. Este lugar esta "
-                    + "en sus comiensos. Por favor toma tiempo para buscar lo que necesitas "
-                    + "para entregar la mejor comida a nuestros clientes. Por favor ve a la cocina.  ";
+                    + "en sus comiensos. \nPor favor toma tiempo para buscar lo que necesitas "
+                    + "para entregar \nla mejor comida a nuestros clientes. Por favor ve a la cocina.  ";
         } else {
             message = getTimeOfDayGreeting(locale, localTime) + ". This is your new restaurant. This place is  "
-                    + "in its very beginning stages. Please take your time to find what you need "
-                    + "to deliver the best food to our customers. Please go to the kitchen ";
+                    + "in its very beginning stages. \nPlease take your time to find what you need "
+                    + "to deliver \nthe best food to our customers. Please go to the kitchen ";
         }
 
         System.out.println(message);

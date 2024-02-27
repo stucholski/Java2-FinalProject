@@ -1,9 +1,9 @@
 package finalproj;
 
 public class Help {
-	PlayerActions actions = new PlayerActions();
+
 	String enter = "You have entered the room.";
-	public void helpText() {
+	public void showCommandList() {
 		System.out.println("ACTIONS:");
 		System.out.println("\tgo to:");
 		System.out.println("\topen");
@@ -14,21 +14,16 @@ public class Help {
 
 		System.out.println();
 
-		System.out.println("ROOMS:");
-		System.out.println("\troom1");
-		System.out.println("\troom2");
-		System.out.println("\troom3");
-		System.out.println("\troom4");
+		System.out.println("Places to go or look around:");
+		System.out.println("\tNorth");
+		System.out.println("\tSouth");
+		System.out.println("\tEast");
+		System.out.println("\tWest");
 
 		System.out.println("\tOBJECTS:");
 		System.out.println("\tTo find objects, look around and pay attention....");
 
-
-
-
-		System.out.println("go to:");
 		System.out.println("What do you do next?");
-		actions.reviewActions();
 	}
 
 }
