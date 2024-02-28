@@ -10,7 +10,6 @@ import java.time.LocalTime;
 import java.util.Locale;
 
 public class RestaurantGame {
-
     final static Logger log = LogManager.getLogger();
     /**
      * The main method starts the program and accepts user input.
@@ -21,7 +20,7 @@ public class RestaurantGame {
      */
     public static void main(String[] args) throws IOException {
 
-        log.info("Game has started...");
+        log.info("Game has started....");
         BufferedReader in;
         String input;
         String output;
