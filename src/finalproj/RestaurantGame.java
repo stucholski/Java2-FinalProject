@@ -13,22 +13,5 @@ public class RestaurantGame {
      * @param args
      * @throws IOException
      */
-    public static void main(String[] args) throws IOException {
-        BufferedReader in;
-        String input;
-        String output;
-        GameEngine engine = new GameEngine();
 
-        in = new BufferedReader(new InputStreamReader(System.in));
-
-        engine.displayStart();
-        do {
-            System.out.println("> ");
-            input = in.readLine();
-            output = engine.reviewInput(input);
-
-            System.out.println(output);
-
-        }while (!"quit".equals(input));
-    }
 }
