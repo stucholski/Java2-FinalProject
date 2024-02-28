@@ -1,6 +1,9 @@
 package finalproj;
 
-public class Utensil implements Cookware {
+interface Cookware extends Item {
+    void use();
+}
+public class Utensil implements Cookware  {
     private String name;
 
     public Utensil(String name) {
