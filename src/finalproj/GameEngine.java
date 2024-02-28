@@ -69,6 +69,7 @@ public class GameEngine {
         p.setRoom(r);
     }
 
+    //Method to get the room description and room items
     private String lookAround() {
         Room currentRoom = player.getRoom();
         String description = currentRoom.getDescription();
@@ -83,6 +84,7 @@ public class GameEngine {
         return description;
     }
 
+    //Sets location based on movement
     public int move(Player player, Rooms rooms){
 
         Room r = player.getRoom();
@@ -111,9 +113,11 @@ public class GameEngine {
         return exit;
     }
 
+    //movement method
     public int moveTo(Rooms r){
         return move(player, r);
     }
+
 
     // Example methods for moving to specific rooms
     private void goKitchen() { updateOutput(moveTo(Rooms.Kitchen));}
