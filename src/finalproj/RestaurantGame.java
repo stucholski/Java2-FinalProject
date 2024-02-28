@@ -1,5 +1,8 @@
 package finalproj;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,7 +10,7 @@ import java.time.LocalTime;
 import java.util.Locale;
 
 public class RestaurantGame {
-
+    final static Logger log = LogManager.getLogger();
     /**
      * The main method starts the program and accepts user input.
      * After input is received, it is passed to the ReviewInput method.
@@ -16,11 +19,14 @@ public class RestaurantGame {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
+
+        log.info("Game has started....");
         BufferedReader in;
         String input;
         String output;
         GameEngine engine = new GameEngine();
 
+        log.info("Setting up the communications for the game.");
         Communications communications = new Communications();
         Locale locale = Locale.getDefault();
         LocalTime localTime = LocalTime.now();
