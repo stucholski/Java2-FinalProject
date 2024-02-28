@@ -9,7 +9,7 @@ public class GameEngine {
 
     // Attributes to represent the game's state
     private ArrayList<Room> map;
-    private Player1 player;
+    private Player player;
     private List<String> verbs = new ArrayList<>(Arrays.asList("take", "drop", "cook", "look", "cut", "stir", "kitchen", "pantry", "freezer", "dining"));
     private List<String> nouns = new ArrayList<>(Arrays.asList("knife", "spoon", "sauce", "noodles", "beef", "pan", "plate"));
 
@@ -44,7 +44,7 @@ public class GameEngine {
         dining.addItem("");
         map.add(dining);
 
-        player = new Player1("Chef", map.get(0));
+        player = new Player("Chef", map.get(0));
     }
 
 
@@ -57,15 +57,15 @@ public class GameEngine {
         this.map = map;
     }
 
-    public Player1 getPlayer() {
+    public Player getPlayer() {
         return player;
     }
 
-    public void setPlayer(Player1 player) {
+    public void setPlayer(Player player) {
         this.player = player;
     }
 
-    public void movePlayerTo(Player1 p, Room r){
+    public void movePlayerTo(Player p, Room r){
         p.setRoom(r);
     }
 
@@ -83,7 +83,7 @@ public class GameEngine {
         return description;
     }
 
-    public int move(Player1 player, Rooms rooms){
+    public int move(Player player, Rooms rooms){
 
         Room r = player.getRoom();
         int exit;
