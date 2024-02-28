@@ -3,6 +3,8 @@ package finalproj;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalTime;
+import java.util.Locale;
 
 public class RestaurantGame {
 
