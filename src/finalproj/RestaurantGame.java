@@ -25,7 +25,7 @@ public class RestaurantGame {
         do {
             System.out.println("> ");
             input = in.readLine();
-            output = engine.ReviewInput(input);
+            output = engine.reviewInput(input);
 
             System.out.println(output);
 

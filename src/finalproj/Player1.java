@@ -1,5 +1,6 @@
 package finalproj;
-
+import java.util.List;
+import java.util.ArrayList;
 /**
  * The player class for the player's name and location.
  */
@@ -7,8 +8,8 @@ public class Player1 {
 	private String name;
 	private Room room;
 
-	public String getName(String name){
-		return name;
+	public String getName(){
+		return this.name;
 	}
 	public void setName(String name){
 		this.name = name;
@@ -22,6 +23,21 @@ public class Player1 {
 	public Player1(String aName, Room aRoom){
 		this.name = aName;
 		this.room = aRoom;
+	}
+
+	// Assuming other attributes are defined here
+	private List<String> inventory = new ArrayList<>();
+
+	public void addToInventory(String item) {
+		inventory.add(item);
+	}
+
+	public boolean removeFromInventory(String item) {
+		return inventory.remove(item);
+	}
+
+	public List<String> getInventory() {
+		return new ArrayList<>(inventory);
 	}
 	/**public static void main (String [] args){
 		Player1 player = new Player1("Hero",	);
