@@ -1,5 +1,7 @@
 package finalproj;
 
+import java.time.LocalTime;
+import java.util.Locale;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,22 +15,31 @@ public class RestaurantGame {
      * @param args
      * @throws IOException
      */
+    /**
+     * Constructor to initialize the game world.
+     */
     public static void main(String[] args) throws IOException {
         BufferedReader in;
         String input;
         String output;
         GameEngine engine = new GameEngine();
 
+        Communications communications = new Communications();
+        Locale locale = Locale.getDefault();
+        LocalTime localTime = LocalTime.now();
+
         in = new BufferedReader(new InputStreamReader(System.in));
 
+        communications.getIntroMessage(locale, localTime);
         engine.displayStart();
         do {
             System.out.println("> ");
             input = in.readLine();
-            output = engine.ReviewInput(input);
+            output = engine.reviewInput(input);
 
             System.out.println(output);
 
         }while (!"quit".equals(input));
     }
+
 }
