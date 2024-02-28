@@ -19,8 +19,13 @@ public class RestaurantGame {
         String output;
         GameEngine engine = new GameEngine();
 
+        Communications communications = new Communications();
+        Locale locale = Locale.getDefault();
+        LocalTime localTime = LocalTime.now();
+
         in = new BufferedReader(new InputStreamReader(System.in));
 
+        communications.getIntroMessage(locale, localTime);
         engine.displayStart();
         do {
             System.out.println("> ");

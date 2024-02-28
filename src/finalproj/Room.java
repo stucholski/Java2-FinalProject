@@ -2,7 +2,7 @@ package finalproj;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Room {
+public class Room extends Thing {
 
 	private String name;
 	private String description;
@@ -22,9 +22,11 @@ public class Room {
 		this.description = description;
 	}
 
+	@Override
 	public String getName(){
 		return name;
 	}
+	@Override
 	public void setName(String name){
 		this.name = name;
 	}
