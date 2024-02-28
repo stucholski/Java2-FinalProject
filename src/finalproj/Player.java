@@ -4,7 +4,7 @@ import java.util.ArrayList;
 /**
  * The player class for the player's name and location.
  */
-public class Player {
+public class Player1 {
 	private String name;
 	private Room room;
 
@@ -20,7 +20,7 @@ public class Player {
 	public Room getRoom(){
 		return this.room;
 	}
-	public Player(String aName, Room aRoom){
+	public Player1(String aName, Room aRoom){
 		this.name = aName;
 		this.room = aRoom;
 	}
