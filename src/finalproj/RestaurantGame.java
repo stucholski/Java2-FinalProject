@@ -2,7 +2,6 @@ package finalproj;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -38,7 +37,7 @@ public class RestaurantGame {
         communications.getIntroMessage(locale, localTime);
         engine.displayStart();
         do {
-            System.out.println("> ");
+            System.out.print("\n> ");
             input = in.readLine();
             output = engine.reviewInput(input);
 

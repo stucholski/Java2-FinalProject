@@ -231,21 +231,22 @@ public class GameEngine {
             return "You have the following items in your inventory: " + items;
         }
     }
+
     /**
-     * This method is called by the user when they input 'serve'
-     * This checks the inventoru for sauce, meat, noodles, and a plate.
-     * If these items exist in the player inventory, then the player wins the game.
+     * This method is called by the user when they input 'cook', 'prepare' or 'make'
+     * This checks the inventory for sauce, meat, noodles, and a plate.
+     * If these items exist in the player inventory, then the player cooks spaghetti.
      * @return
      */
-    public String checkforWin(){
+    public String cookDish(){
         List<String> winItems = new ArrayList<>(Arrays.asList("sauce", "noodles", "plate", "meat"));
         List<String> inventory = player.getInventory();
         String invItems = inventory.toString();
         List<String> items = InvList(invItems);
         if(items.isEmpty()){
-            return "You should collect some items to serve.";
+            return "You should collect the required items to make the dish.";
         }else if (items.size() < 4){
-            return "You don't have enough items to serve the dish. Find the correct items.";
+            return "You don't have enough items to make the dish. Find the correct items.";
         }else if (items.size() > 4){
             return "You have too many items. Only add the ingredients you need to your inventory.";
         }if (player.getInventory().containsAll(winItems)){
@@ -255,11 +256,41 @@ public class GameEngine {
             //  (items.get(3).equals("sauce") || items.get(3).equals("noodles") || items.get(3).equals("plate") || items.get(3).equals("meat"))){
 
             //return "Congratulations! You have collected enough ingredients to create a dish. \nSee you next time.";
-            displayEnd();
+
+            // Cook Dish
+            player.addToInventory("spaghetti");
+            player.removeFromInventory("sauce");
+            player.removeFromInventory("noodles");
+            player.removeFromInventory("plate");
+            player.removeFromInventory("meat");
+
+            return "Awesome! You made the best spaghetti I've ever tried. Congrats. Your dish is ready for the customer. ";
         }
         return "You don't have the right items to make the dish. Keep tyring!";
 
     }
+
+    /**
+     * This method is called by the user when they input 'serve'
+     * This checks the inventoru for spaghetti.
+     * If the item exist in the player inventory, then the player wins the game.
+     * @return
+     */
+    public String checkForWin(){
+        final String WINNING_DISH = "spaghetti";
+        List<String> inventory = player.getInventory();
+        String invItems = inventory.toString();
+        List<String> items = InvList(invItems);
+
+        // Check if spaghetti is in inventory
+        if (player.getInventory().contains(WINNING_DISH)){
+            displayEnd();
+            return "";
+        }
+        return "You haven't cooked that dish. Make sure you gather all ingredients and cook the dish. Keep tyring!";
+
+    }
+
     /**
      * Method to deliminate the inventory list
      * This is called in the checkForWin method
@@ -309,13 +340,20 @@ public class GameEngine {
                 return "What do you want to take?";
             }
             return takeItem(words.get(1));
-        } else if (verb.equalsIgnoreCase("drop")){
-            if (words.size() < 2){
+        } else if (verb.equalsIgnoreCase("drop")) {
+            if (words.size() < 2) {
                 return "What do you want to drop?";
             }
             return dropItem(words.get(1));
+        }else if(verb.equalsIgnoreCase("cook") || verb.equalsIgnoreCase("prepare") || verb.equalsIgnoreCase("make")){
+            if(words.size() < 2 ) return "What do you want to cook? Please be specific.";
+
+            if(words.get(1).equalsIgnoreCase("spaghetti")){
+                return cookDish();
+            }
+
         }else if (verb.equalsIgnoreCase("serve")){
-            return checkforWin();
+            return checkForWin();
         } else if (verb.equalsIgnoreCase("inventory")) {
             return checkInventory();
         } else if (verb.equalsIgnoreCase("move") || verb.equalsIgnoreCase("go")) {
