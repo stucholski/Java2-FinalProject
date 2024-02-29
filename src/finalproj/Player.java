@@ -2,15 +2,15 @@ package finalproj;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Player extends Thing {
+public class Player  {
 	private String name;
 	private Room room;
 
-	@Override
+
 	public String getName(){
 		return this.name;
 	}
-	@Override
+
 	public void setName(String name){
 		this.name = name;
 	}
@@ -31,6 +31,7 @@ public class Player extends Thing {
 	public void addToInventory(String item) {
 		inventory.add(item);
 	}
+
 
 	public boolean removeFromInventory(String item) {
 		return inventory.remove(item);

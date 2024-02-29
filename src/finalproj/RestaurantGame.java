@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.time.LocalTime;
 import java.util.Locale;
 
+
 public class RestaurantGame {
     final static Logger log = LogManager.getLogger();
     /**
@@ -28,6 +29,7 @@ public class RestaurantGame {
 
         log.info("Setting up the communications for the game.");
         Communications communications = new Communications();
+
         Locale locale = Locale.getDefault();
         LocalTime localTime = LocalTime.now();
 
