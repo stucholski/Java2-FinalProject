@@ -2,6 +2,7 @@ package finalproj;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,40 +16,11 @@ public class GameEngine {
     private ArrayList<Room> map;
     private Player player;
     private List<String> verbs = new ArrayList<>(Arrays.asList("take", "drop", "cook", "look", "cut", "stir", "kitchen", "pantry", "freezer", "dining"));
-    private List<String> nouns = new ArrayList<>(Arrays.asList("spoon", "fork", "plate", "noodles", "sauce", "spices", "meat","vegetables","ice","candle","table","chair"," "," "," "));
+    private List<String> nouns = new ArrayList<>(Arrays.asList("knife", "spoon", "sauce", "noodles", "beef", "pan", "plate"," "," "," "," "," "," "," "," "));
+
 
 
     public GameEngine(){
-
-        this.map = new ArrayList<Room>();
-
-        Room kitchen = new Room("Kitchen", "A brightly-lit room with tools and utensils for cooking. ", 1, 0, 0, 0);
-        kitchen.addItem("spoon");
-        kitchen.addItem("fork");
-        kitchen.addItem("plate");
-        map.add(kitchen);
-
-        Room pantry = new Room("Pantry", "A dark room with jars, cans, and boxes of food. ", 0, 0, 1, 0);
-        pantry.addItem("noodles");
-        pantry.addItem("sauce");
-        pantry.addItem("spices");
-        map.add(pantry);
-
-        Room freezer = new Room("Freezer", "A cold, dimly-lit room. ", 0, 0, 0, 1);
-        freezer.addItem("meat");
-        freezer.addItem("vegetables");
-        freezer.addItem("ice");
-        map.add(freezer);
-
-        Room dining = new Room("Dining", "A softly-lit room with places set for dining. ", 0, 1,0,0);
-        dining.addItem("candle");
-        dining.addItem("table");
-        dining.addItem("chair");
-        map.add(dining);
-
-        player = new Player("Chef", map.get(0));
-
-
         try{
             log.info("Creating rooms.");
             this.map = new ArrayList<Room>();
@@ -137,77 +109,29 @@ public class GameEngine {
     public void setMap(ArrayList<Room> map) {
         this.map = map;
     }
-   public void setPlayer(Player1 player) {
+   public void setPlayer(Player player) {
         this.player = player;
     }
 
-    public void movePlayerTo(Player1 p, Room r){
+    public void movePlayerTo(Player p, Room r){
         p.setRoom(r);
     }
 */
     private String lookAround() {
+        Room currentRoom = player.getRoom();
+        String description = currentRoom.getDescription();
+        List<String> items = currentRoom.getItems();
 
-        try{
-            log.info("Looking around.");
-            Room currentRoom = player.getRoom();
-            String description = currentRoom.getDescription();
-            List<String> items = currentRoom.getItems();
-
-            if (!items.isEmpty()) {
-                String itemsDescription = String.join(", ", items);
-                description += " You also see: " + itemsDescription;
-            } else {
-                description += " The room is empty.";
-            }
-            return description;
-
-        }catch(Exception ex){
-            log.error( "Error trying to look around: " + ex.toString());
-            return ex.toString();
+        if (!items.isEmpty()) {
+            String itemsDescription = String.join(", ", items);
+            description += " You also see: " + itemsDescription;
+        } else {
+            description += " The room is empty.";
         }
-
+        return description;
     }
 
  /*   public int moveTo(Rooms r){
-
-    //Sets location based on movement
-    public int move(Player player, Rooms rooms){
-
-        try{
-            Room r = player.getRoom();
-            int exit;
-
-            switch (rooms){
-                case Kitchen:
-                    exit = r.getKitchen();
-                    break;
-                case Pantry:
-                    exit = r.getPantry();
-                    break;
-                case Dining:
-                    exit = r.getDining();
-                    break;
-                case Freezer:
-                    exit = r.getFreezer();
-                    break;
-                default:
-                    exit = Rooms.NOROOMS;
-                    break;
-            }
-            if (exit != Rooms.NOROOMS){
-                movePlayerTo(player, map.get(exit));
-            }
-            return exit;
-
-        }catch (Exception ex){
-            log.error("Error trying to move: " + ex.toString());
-            return 0;
-        }
-    }
-
-    //movement method
-    public int moveTo(Rooms r){
-
         return move(player, r);
     }
  */
@@ -244,23 +168,19 @@ public class GameEngine {
         String introMessage = """
         Welcome to the restaurant adventure game.
         You are the head chef at Sarah's Diner. As the Head Chef your goal is to prepare a dish that can save the diner from closure.
-        But first, you must collect four essential ingredients hidden in various locations of your restaurant. The customer ordered a plate
-        of spahetti, Take a look around and see if you can serve the dish.
+        But first, you must collect three essential ingredients hidden in various locations of your restaurant. Start by using the "Kitchen"
         
         Available commands:
         - 'look': to look around in the current room.
         - 'move [room]': to move to a different room. For example, 'move kitchen'.
         - 'take [item]': to collect an item in the room.
-        - 'drop [item]': to drop an item in the room.
         - 'inventory': to check what items you have collected.
-        - 'serve': to try to serve the collected items as a dish to the patron.
         - 'quit': to end the game.
         
         Good luck, Chef!
         """;
         System.out.println(introMessage);
     }
-
     /**
      * When the win condition is found in the checkforWin method, it calls this method to display a message to the player and close the game.
      */
@@ -271,18 +191,13 @@ public class GameEngine {
                 See you next time.    
         """;
 
-       // Supplier<String> msgDisplay = () -> exitMessage;
+        // Supplier<String> msgDisplay = () -> exitMessage;
         System.out.println(exitMessage);
 
         System.exit(0);
     }
 
-    /**
-     * Method to take items from the room and add them to the player inventory.
-     * The itemName comes from the player input from the ReviewInput method.
-     * @param itemName
-     * @return
-     */
+
     public String takeItem(String itemName) {
         Room currentRoom = player.getRoom();
         if (currentRoom.getItems().contains(itemName)) {
@@ -293,7 +208,6 @@ public class GameEngine {
             return "There's no " + itemName + " here.";
         }
     }
-
     /**
      * Method to drop an item from the inventory and into the room
      * The itemName comes from the player input from the ReviewInput method
@@ -313,11 +227,6 @@ public class GameEngine {
         return "There's no "+ itemName +" in your inventory.";
     }
 
-    /**
-     * The player can input an 'inventory' command to view the items in their inventory.
-     * @return
-     */
-
     public String checkInventory() {
         List<String> inventory = player.getInventory();
         if (inventory.isEmpty()) {
@@ -327,7 +236,6 @@ public class GameEngine {
             return "You have the following items in your inventory: " + items;
         }
     }
-
     /**
      * This method is called by the user when they input 'serve'
      * This checks the inventoru for sauce, meat, noodles, and a plate.
@@ -347,9 +255,9 @@ public class GameEngine {
             return "You have too many items. Only add the ingredients you need to your inventory.";
         }if (player.getInventory().containsAll(winItems)){
             // (items.get(0).equals("sauce") || items.get(0).equals("noodles") || items.get(0).equals("plate") || items.get(0).equals("meat")) &&
-             //   (items.get(1).equals("sauce") || items.get(1).equals("noodles") || items.get(1).equals("plate") || items.get(1).equals("meat")) &&
-              //  (items.get(2).equals("sauce") || items.get(2).equals("noodles") || items.get(2).equals("plate") || items.get(2).equals("meat")) &&
-              //  (items.get(3).equals("sauce") || items.get(3).equals("noodles") || items.get(3).equals("plate") || items.get(3).equals("meat"))){
+            //   (items.get(1).equals("sauce") || items.get(1).equals("noodles") || items.get(1).equals("plate") || items.get(1).equals("meat")) &&
+            //  (items.get(2).equals("sauce") || items.get(2).equals("noodles") || items.get(2).equals("plate") || items.get(2).equals("meat")) &&
+            //  (items.get(3).equals("sauce") || items.get(3).equals("noodles") || items.get(3).equals("plate") || items.get(3).equals("meat"))){
 
             //return "Congratulations! You have collected enough ingredients to create a dish. \nSee you next time.";
             displayEnd();
@@ -357,7 +265,6 @@ public class GameEngine {
         return "You don't have the right items to make the dish. Keep tyring!";
 
     }
-
     /**
      * Method to deliminate the inventory list
      * This is called in the checkForWin method
@@ -377,11 +284,6 @@ public class GameEngine {
         return stringList;
     }
 
-    public String winMessage(){
-
-        return "Congratulations, you successfully delivered the dish. See you next time.";
-    }
-
     /**
      * Reviews player input and provides feedback.
      * This is the next method after the user enters input.
@@ -393,7 +295,6 @@ public class GameEngine {
      * @return
      */
     public String reviewInput(String inputStr) {
-
         List<String> words = WordList(inputStr); // Assuming WordList splits the input into words
         if (words.isEmpty()) {
             return "You didn't type anything.";
@@ -407,52 +308,15 @@ public class GameEngine {
                 return "What do you want to take?";
             }
             return takeItem(words.get(1));
-        } else if (verb.equalsIgnoreCase("drop")){
-            if (words.size() < 2){
-                return "What do you want to drop?";
-            }
-            return dropItem(words.get(1));
         } else if (verb.equalsIgnoreCase("inventory")) {
             return checkInventory();
-        }else if (verb.equalsIgnoreCase("serve")){
-            return checkforWin();
         } else if (verb.equalsIgnoreCase("move") || verb.equalsIgnoreCase("go")) {
             if (words.size() < 2) {
                 return "Where do you want to go?";
             }
             return movePlayer(words.get(1));
-
-
-        try{
-            log.info("Reviewing info.");
-            if (inputStr.equalsIgnoreCase("look")) {
-                return lookAround();
-            } else if (inputStr.startsWith("take ")) {
-                String item = inputStr.substring(5); // Get the item name after "take "
-                Room currentRoom = player.getRoom();
-                if (currentRoom.getItems().contains(item)) {
-                    currentRoom.removeItem(item);
-                    player.addToInventory(item);
-                    return "You took the " + item + ".";
-                } else {
-                    return "There's no " + item + " here.";
-                }
-            } else if (inputStr.equalsIgnoreCase("inventory")) {
-                // Handle the inventory command
-                List<String> inventory = player.getInventory();
-                if (inventory.isEmpty()) {
-                    return "Your inventory is empty.";
-                } else {
-                    String items = String.join(", ", inventory);
-                    return "You have the following items in your inventory: " + items;
-                }
-            }
-            return "I don't understand what you want to do.";
-        }catch (Exception ex){
-            log.error("Error trying to review input: " + ex.toString());
-            return "error";
-
         }
+        return "I don't understand what you want to do.";
     }
 
     /**
@@ -480,7 +344,6 @@ public class GameEngine {
      * Processes action based on verb input.
      */
     public String ProcessAction(List<String> wordlist) {
-        log.info("Processing actions.");
         String verb;
         String action = "";
         verb = wordlist.get(0);
@@ -534,7 +397,6 @@ public class GameEngine {
      * @param wordlist
      */
     public String ParseVerbNoun(List<String> wordlist) {
-        log.info("Parsing verb nouns.");
         String verb;
         String noun;
         String message = "";
