@@ -19,13 +19,15 @@ public class Communications {
 
         String message;
         if (language.equals("es")) {
-            message = getTimeOfDayGreeting(locale, localTime) + ". Este es tu nuevo restaurante. Este lugar esta "
+            message = "Bievenido al juego Aventura en el Restaurant. \n"
+                    + getTimeOfDayGreeting(locale, localTime) + "Este es tu nuevo restaurante. Este lugar esta "
                     + "en sus comiensos. \nPor favor toma tiempo para buscar lo que necesitas "
-                    + "para entregar \nla mejor comida a nuestros clientes. Por favor ve a la cocina.  ";
+                    + "para entregar \nla mejor comida a nuestros clientes. ";
         } else {
-            message = getTimeOfDayGreeting(locale, localTime) + ". This is your new restaurant. This place is  "
+            message = "Welcome to the restaurant adventure game. \n"
+                    + getTimeOfDayGreeting(locale, localTime) + "This is your new restaurant. This place is  "
                     + "in its very beginning stages. \nPlease take your time to find what you need "
-                    + "to deliver \nthe best food to our customers. Please go to the kitchen ";
+                    + "to deliver \nthe best food to our customers. ";
         }
 
         System.out.println(message);
