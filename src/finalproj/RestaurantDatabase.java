@@ -58,10 +58,7 @@ public class RestaurantDatabase {
                 stmt.executeUpdate("INSERT INTO Transactions VALUES (3,'Jackson Family', 200)");
 
                 // give an employee a raise
-                //giveRaise(conn,1,5000);
-                //delete a transaction
-                //deleteTransaction(conn,3);
-
+                giveRaise(conn,1,5000);
 
                 ResultSet rs = stmt.executeQuery("SELECT id, name, salary FROM Employees");
 
@@ -82,23 +79,11 @@ public class RestaurantDatabase {
         }
     }
 
-    /**
-     * Deletes a transaction
-     *
-     * @param conn         The database connection.
-     * @param transactionId The ID of the transaction to delete.
-     * @throws SQLException If a database error occurs.
-     */
-    public static void deleteTransaction(Connection conn, int transactionId) throws SQLException {
-        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM Transactions WHERE id = ?")) {
-            ps.setInt(1, transactionId);
-            int rowCount = ps.executeUpdate();
-
-            if (rowCount > 0) {
-                System.out.println("Transaction deleted successfully.");
-            } else {
-                System.out.println("Transaction with ID " + transactionId + " not found.");
-            }
+    public static void safeDelete(Connection conn, String name) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM Employees WHERE name = ?")) {
+            ps.setString(1, name);
+            System.out.println(ps.toString());
+            ps.execute();
         }
     }
     /**
