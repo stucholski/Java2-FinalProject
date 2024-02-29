@@ -155,13 +155,16 @@ public class GameEngine {
         String introMessage = """
         Welcome to the restaurant adventure game.
         You are the head chef at Sarah's Diner. As the Head Chef your goal is to prepare a dish that can save the diner from closure.
-        But first, you must collect three essential ingredients hidden in various locations of your restaurant. Start by using the "Kitchen"
+        But first, you must collect four essential ingredients hidden in various locations of your restaurant. The customer ordered a plate
+        of spahetti, Take a look around and see if you can serve the dish.
         
         Available commands:
         - 'look': to look around in the current room.
         - 'move [room]': to move to a different room. For example, 'move kitchen'.
         - 'take [item]': to collect an item in the room.
+        - 'drop [item]': to drop an item in the room.
         - 'inventory': to check what items you have collected.
+        - 'serve': to try to serve the collected items as a dish to the patron.
         - 'quit': to end the game.
         
         Good luck, Chef!
@@ -169,6 +172,28 @@ public class GameEngine {
         System.out.println(introMessage);
     }
 
+    /**
+     * When the win condition is found in the checkforWin method, it calls this method to display a message to the player and close the game.
+     */
+    public void displayEnd(){
+        String exitMessage = """
+                Congratulations! 
+                You successfully served a dish of spaghetti to the patron.
+                See you next time.    
+        """;
+
+       // Supplier<String> msgDisplay = () -> exitMessage;
+        System.out.println(exitMessage);
+
+        System.exit(0);
+    }
+
+    /**
+     * Method to take items from the room and add them to the player inventory.
+     * The itemName comes from the player input from the ReviewInput method.
+     * @param itemName
+     * @return
+     */
     public String takeItem(String itemName) {
         Room currentRoom = player.getRoom();
         if (currentRoom.getItems().contains(itemName)) {
@@ -180,6 +205,30 @@ public class GameEngine {
         }
     }
 
+    /**
+     * Method to drop an item from the inventory and into the room
+     * The itemName comes from the player input from the ReviewInput method
+     * @param itemName
+     * @return
+     */
+    public String dropItem(String itemName){
+        Room currentRoom = player.getRoom();
+        List<String> inventory = player.getInventory();
+        if (inventory.isEmpty()){
+            return "Your inventory is empty.";
+        }else if(player.getInventory().contains(itemName)) {
+            player.removeFromInventory(itemName);
+            currentRoom.addItem(itemName);
+            return "You have removed "+ itemName +" from your inventory.";
+        }
+        return "There's no "+ itemName +" in your inventory.";
+    }
+
+    /**
+     * The player can input an 'inventory' command to view the items in their inventory.
+     * @return
+     */
+
     public String checkInventory() {
         List<String> inventory = player.getInventory();
         if (inventory.isEmpty()) {
@@ -188,6 +237,60 @@ public class GameEngine {
             String items = String.join(", ", inventory);
             return "You have the following items in your inventory: " + items;
         }
+    }
+
+    /**
+     * This method is called by the user when they input 'serve'
+     * This checks the inventoru for sauce, meat, noodles, and a plate.
+     * If these items exist in the player inventory, then the player wins the game.
+     * @return
+     */
+    public String checkforWin(){
+        List<String> winItems = new ArrayList<>(Arrays.asList("sauce", "noodles", "plate", "meat"));
+        List<String> inventory = player.getInventory();
+        String invItems = inventory.toString();
+        List<String> items = InvList(invItems);
+        if(items.isEmpty()){
+            return "You should collect some items to serve.";
+        }else if (items.size() < 4){
+            return "You don't have enough items to serve the dish. Find the correct items.";
+        }else if (items.size() > 4){
+            return "You have too many items. Only add the ingredients you need to your inventory.";
+        }if (player.getInventory().containsAll(winItems)){
+            // (items.get(0).equals("sauce") || items.get(0).equals("noodles") || items.get(0).equals("plate") || items.get(0).equals("meat")) &&
+             //   (items.get(1).equals("sauce") || items.get(1).equals("noodles") || items.get(1).equals("plate") || items.get(1).equals("meat")) &&
+              //  (items.get(2).equals("sauce") || items.get(2).equals("noodles") || items.get(2).equals("plate") || items.get(2).equals("meat")) &&
+              //  (items.get(3).equals("sauce") || items.get(3).equals("noodles") || items.get(3).equals("plate") || items.get(3).equals("meat"))){
+
+            //return "Congratulations! You have collected enough ingredients to create a dish. \nSee you next time.";
+            displayEnd();
+        }
+        return "You don't have the right items to make the dish. Keep tyring!";
+
+    }
+
+    /**
+     * Method to deliminate the inventory list
+     * This is called in the checkForWin method
+     * @param input
+     * @return
+     */
+    public List<String> InvList(String input) {
+        String delims = " ";
+        List<String> stringList = new ArrayList<>();
+        StringTokenizer word = new StringTokenizer(input, delims);
+        String w;
+
+        while (word.hasMoreTokens()){
+            w = word.nextToken();
+            stringList.add(w);
+        }
+        return stringList;
+    }
+
+    public String winMessage(){
+
+        return "Congratulations, you successfully delivered the dish. See you next time.";
     }
 
     /**
@@ -214,8 +317,15 @@ public class GameEngine {
                 return "What do you want to take?";
             }
             return takeItem(words.get(1));
+        } else if (verb.equalsIgnoreCase("drop")){
+            if (words.size() < 2){
+                return "What do you want to drop?";
+            }
+            return dropItem(words.get(1));
         } else if (verb.equalsIgnoreCase("inventory")) {
             return checkInventory();
+        }else if (verb.equalsIgnoreCase("serve")){
+            return checkforWin();
         } else if (verb.equalsIgnoreCase("move") || verb.equalsIgnoreCase("go")) {
             if (words.size() < 2) {
                 return "Where do you want to go?";
