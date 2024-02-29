@@ -291,7 +291,13 @@ public class GameEngine {
      * @return
      */
     public String reviewInput(String inputStr) {
+
+        try{
+            log.info("Reviewing ingo.");
+
         List<String> words = WordList(inputStr); // Assuming WordList splits the input into words
+
+
         if (words.isEmpty()) {
             return "You didn't type anything.";
         }
@@ -320,6 +326,10 @@ public class GameEngine {
             return movePlayer(words.get(1));
         }
         return "I don't understand what you want to do.";
+    }catch (Exception ex){
+            log.error("Error trying to review input: " + ex.toString());
+            return "error";
+        }
     }
 
     /**
