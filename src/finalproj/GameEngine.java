@@ -158,8 +158,7 @@ public class GameEngine {
     }
 */
     public void displayStart() {
-        String introMessage = """
-        Welcome to the restaurant adventure game.
+        String introMessage = """        
         You are the head chef at Sarah's Diner. As the Head Chef your goal is to prepare a dish that can save the diner from closure.
         But first, you must collect four essential ingredients hidden in various locations of your restaurant. The customer ordered a plate
         of spaghetti, Take a look around and see if you can serve the dish.
