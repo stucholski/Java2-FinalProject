@@ -322,7 +322,13 @@ public class GameEngine {
             if (words.size() < 2) {
                 return "Where do you want to go?";
             }
-            return movePlayer(words.get(1));
+
+            if(words.get(1).equalsIgnoreCase("to")){
+                return movePlayer(words.get(2));
+            }else{
+                return movePlayer(words.get(1));
+            }
+
         }
         return "I don't understand what you want to do.";
     }catch (Exception ex){
