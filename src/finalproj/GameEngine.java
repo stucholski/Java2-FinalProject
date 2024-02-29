@@ -157,24 +157,20 @@ public class GameEngine {
         System.out.println(s);
     }
 */
-    /**
-     * Displays the start message and instructions for the game.
-     * Method to display at start - called by RestaurantGame class
-     *Could be an intro to the game and introducing the player as the head chef
-     *Lay out ground rules and clues
-     */
-
     public void displayStart() {
         String introMessage = """
         Welcome to the restaurant adventure game.
         You are the head chef at Sarah's Diner. As the Head Chef your goal is to prepare a dish that can save the diner from closure.
-        But first, you must collect three essential ingredients hidden in various locations of your restaurant. Start by using the "Kitchen"
+        But first, you must collect four essential ingredients hidden in various locations of your restaurant. The customer ordered a plate
+        of spaghetti, Take a look around and see if you can serve the dish.
         
         Available commands:
         - 'look': to look around in the current room.
         - 'move [room]': to move to a different room. For example, 'move kitchen'.
         - 'take [item]': to collect an item in the room.
+        - 'drop [item]': to drop an item in the room.
         - 'inventory': to check what items you have collected.
+        - 'serve': to try to serve the collected items as a dish to the patron.
         - 'quit': to end the game.
         
         Good luck, Chef!
@@ -308,6 +304,13 @@ public class GameEngine {
                 return "What do you want to take?";
             }
             return takeItem(words.get(1));
+        } else if (verb.equalsIgnoreCase("drop")){
+            if (words.size() < 2){
+                return "What do you want to drop?";
+            }
+            return dropItem(words.get(1));
+        }else if (verb.equalsIgnoreCase("serve")){
+            return checkforWin();
         } else if (verb.equalsIgnoreCase("inventory")) {
             return checkInventory();
         } else if (verb.equalsIgnoreCase("move") || verb.equalsIgnoreCase("go")) {
