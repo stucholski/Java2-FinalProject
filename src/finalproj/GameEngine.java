@@ -13,11 +13,6 @@ import java.util.StringTokenizer;
 
 public class GameEngine {
 
-    /**
-     * method to instantiate the restaurant database and call the giveRaise method
-     * @param employeeId Id of employee to give raise to
-     * @param raiseAmount amount the raise will be
-     */
     public void giveEmployeeRaise(int employeeId, double raiseAmount) {
         try {
             EmbeddedDataSource ds = new EmbeddedDataSource();
@@ -70,7 +65,6 @@ public class GameEngine {
             map.add(dining);
 
             player = new Player("Chef", map.get(0));
-            //gave Rick a raise of 5000
             giveEmployeeRaise(1,5000);
         }catch (Exception ex){
             log.error("There was an error setting up the world.");
