@@ -1,8 +1,11 @@
 package finalproj;
 
+import org.apache.derby.jdbc.EmbeddedDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,6 +13,18 @@ import java.util.StringTokenizer;
 
 public class GameEngine {
 
+    public void giveEmployeeRaise(int employeeId, double raiseAmount) {
+        try {
+            EmbeddedDataSource ds = new EmbeddedDataSource();
+            ds.setDatabaseName("restaurant_database");
+
+            try (Connection connection = ds.getConnection()) {
+                RestaurantDatabase.giveRaise(connection, employeeId, raiseAmount);
+            }
+        } catch (SQLException e) {
+            log.error("Error giving employee a raise: " + e.getMessage(), e);
+        }
+    }
     final Logger log = LogManager.getLogger();
 
     // Attributes to represent the game's state
@@ -43,13 +58,14 @@ public class GameEngine {
             freezer.addItem("ice");
             map.add(freezer);
 
-            Room dining = new Room("Dining", "A softly-lit room with tables and places set for dining.", 0, 1,0,0);
+            Room dining = new Room("Dining", "A softly-lit room with tables and places set for dining. You see Rick the waiter going above and beyond and decide he needs a raise. He gets a 5,000 raise.", 0, 1,0,0);
             dining.addItem("candle");
             dining.addItem("table");
             dining.addItem("chair");
             map.add(dining);
 
             player = new Player("Chef", map.get(0));
+            giveEmployeeRaise(1,5000);
         }catch (Exception ex){
             log.error("There was an error setting up the world.");
         }
