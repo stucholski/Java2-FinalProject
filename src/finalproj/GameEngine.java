@@ -5,26 +5,60 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class GameEngine {
+    /**
+     * Method to give the employee raise and updates the database with user input
+     * Try with resources to close database connection
+     */
+    private static final Scanner scanner = new Scanner(System.in);
 
-    public void giveEmployeeRaise(int employeeId, double raiseAmount) {
+    public void giveEmployeeRaise(int employeeId) {
         try {
             EmbeddedDataSource ds = new EmbeddedDataSource();
             ds.setDatabaseName("restaurant_database");
 
             try (Connection connection = ds.getConnection()) {
-                RestaurantDatabase.giveRaise(connection, employeeId, raiseAmount);
+                // Ask the user for the raise amount
+                System.out.print("Enter the raise amount for employee " + employeeId + ": ");
+
+                // Validate and read the double input
+                double raiseAmount = getValidDoubleInput();
+
+                // Use a prepared statement to safely handle user input in the SQL query
+                String sql = "UPDATE Employees SET salary = salary + ? WHERE id = ?";
+                try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                    // Set parameters for the prepared statement
+                    preparedStatement.setDouble(1, raiseAmount);
+                    preparedStatement.setInt(2, employeeId);
+
+                    // Execute the update
+                    int rowsAffected = preparedStatement.executeUpdate();
+
+                    if (rowsAffected > 0) {
+                        System.out.println("Raise successfully applied to employee " + employeeId);
+                    } else {
+                        System.out.println("Employee not found.");
+                    }
+                }
             }
         } catch (SQLException e) {
             log.error("Error giving employee a raise: " + e.getMessage(), e);
         }
     }
+
+    // Helper method to get valid double input from the user
+    private double getValidDoubleInput() {
+        while (!scanner.hasNextDouble()) {
+            System.out.print("Invalid input. Please enter a valid number: ");
+            scanner.next();
+        }
+        return scanner.nextDouble();
+    }
+
     final Logger log = LogManager.getLogger();
 
     // Attributes to represent the game's state
@@ -58,20 +92,23 @@ public class GameEngine {
             freezer.addItem("ice");
             map.add(freezer);
 
-            Room dining = new Room("Dining", "A softly-lit room with tables and places set for dining. You see Rick the waiter going above and beyond and decide he needs a raise. He gets a 5,000 raise.", 0, 1,0,0);
+            Room dining = new Room("Dining", "A softly-lit room with tables and places set for dining.", 0, 1,0,0);
             dining.addItem("candle");
             dining.addItem("table");
             dining.addItem("chair");
+
             map.add(dining);
 
             player = new Player("Chef", map.get(0));
-            giveEmployeeRaise(1,5000);
+
         }catch (Exception ex){
             log.error("There was an error setting up the world.");
         }
 
 
     }
+
+
 
     public Player getPlayer() {
         return player;
@@ -137,6 +174,12 @@ public class GameEngine {
         Room currentRoom = player.getRoom();
         String description = currentRoom.getDescription();
         List<String> items = currentRoom.getItems();
+        //if user looks into the dinning room is asked to ender a raise for rick
+        if (currentRoom.getName().equalsIgnoreCase("Dining")) {
+            System.out.print("You see Rick the waiter working very hard and you decide he deserves a raise. ");
+            giveEmployeeRaise(1); // Ask for a raise for Rick
+        }
+
 
         if (!items.isEmpty()) {
             String itemsDescription = String.join(", ", items);

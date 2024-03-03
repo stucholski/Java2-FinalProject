@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.Time;
 import java.time.LocalTime;
 import java.util.Locale;
 
@@ -35,6 +36,8 @@ public class RestaurantGame {
         in = new BufferedReader(new InputStreamReader(System.in));
 
         communications.getIntroMessage(locale, localTime);
+        //starts the games time counter
+        TimeCounter timeCounter = TimeCounter.getInstance();
         engine.displayStart();
         do {
             System.out.print("\n> ");
@@ -44,5 +47,10 @@ public class RestaurantGame {
             System.out.println(output);
 
         }while (!"quit".equals(input));
+
+        //at the end of the game the elapsed time is shown to the user
+        long elapsedTime = timeCounter.getElapsedTime();
+        System.out.println("Elapsed Time: " + elapsedTime + " seconds");
     }
+
 }
