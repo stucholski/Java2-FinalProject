@@ -4,7 +4,7 @@ public class TimeCounter {
     private long startTime;
 
     private TimeCounter() {
-        // Private constructor to prevent external instantiation
+
         startTime = System.currentTimeMillis();
     }
 

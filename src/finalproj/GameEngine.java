@@ -10,6 +10,15 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class GameEngine {
+
+    final Logger log = LogManager.getLogger();
+
+    // Attributes to represent the game's state
+    private ArrayList<Room> map;
+    private Player player;
+    private List<String> verbs = new ArrayList<>(Arrays.asList("take", "drop", "cook", "look", "cut", "stir", "kitchen", "pantry", "freezer", "dining"));
+    private List<String> nouns = new ArrayList<>(Arrays.asList("knife", "spoon", "sauce", "noodles", "beef", "pan", "plate"," "," "," "," "," "," "," "," "));
+
     /**
      * Method to give the employee raise and updates the database with user input
      * Try with resources to close database connection
@@ -58,15 +67,6 @@ public class GameEngine {
         }
         return scanner.nextDouble();
     }
-
-    final Logger log = LogManager.getLogger();
-
-    // Attributes to represent the game's state
-    private ArrayList<Room> map;
-    private Player player;
-    private List<String> verbs = new ArrayList<>(Arrays.asList("take", "drop", "cook", "look", "cut", "stir", "kitchen", "pantry", "freezer", "dining"));
-    private List<String> nouns = new ArrayList<>(Arrays.asList("knife", "spoon", "sauce", "noodles", "beef", "pan", "plate"," "," "," "," "," "," "," "," "));
-
 
 
     public GameEngine(){
