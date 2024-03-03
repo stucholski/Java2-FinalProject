@@ -28,14 +28,13 @@ public class RestaurantGame {
         GameEngine engine = new GameEngine();
 
         log.info("Setting up the communications for the game.");
-        Communications communications = new Communications();
-
         Locale locale = Locale.getDefault();
         LocalTime localTime = LocalTime.now();
+        Communications communications = new Communications(locale, localTime);
 
         in = new BufferedReader(new InputStreamReader(System.in));
 
-        communications.getIntroMessage(locale, localTime);
+       System.out.println(communications.getIntroMessage());
         //starts the games time counter
         TimeCounter timeCounter = TimeCounter.getInstance();
         engine.displayStart();
