@@ -16,9 +16,32 @@ public class GameEngine {
     // Attributes to represent the game's state
     private ArrayList<Room> map;
     private Player player;
-    private List<String> verbs = new ArrayList<>(Arrays.asList("take", "drop", "cook", "look", "cut", "stir", "kitchen", "pantry", "freezer", "dining"));
-    private List<String> nouns = new ArrayList<>(Arrays.asList("knife", "spoon", "sauce", "noodles", "beef", "pan", "plate"," "," "," "," "," "," "," "," "));
 
+    // 3.1 Example of an unbound wildcard
+    private List<?> verbs = new ArrayList<>(Arrays.asList("take", "drop", "cook", "look", "prepare", "make", "spaghetti", "serve", "inventory", "move", "go", "help"));
+    private List<?> nouns = new ArrayList<>(Arrays.asList("fork", "spoon", "plate", "noodles", "sauce", "spices", "meat","vegatables","ice"," candle","table","chair"));
+
+    // 3.5 Example of a foreach statement
+
+    /**
+     * Using a foreach statement to cycle through the unbound wildcard, output each verb
+     * @param list
+     */
+    public static void Actions(List<?> list){
+        for (Object x : list)
+            System.out.println(x);
+    }
+
+    /**
+     * Calls the Actions method and outputs a message
+     * This will display if the user enters a 'help' command in the reviewInput method
+     * @return
+     */
+    public String Help(){
+        String message = "Use one of these actions if you're stuck. ";
+        Actions(verbs);
+        return message;
+    }
     /**
      * Method to give the employee raise and updates the database with user input
      * Try with resources to close database connection
@@ -404,6 +427,8 @@ public class GameEngine {
                 return "What do you want to drop?";
             }
             return dropItem(words.get(1));
+        }else if (verb.equalsIgnoreCase("help")){
+            return Help();
         }else if(verb.equalsIgnoreCase("cook") || verb.equalsIgnoreCase("prepare") || verb.equalsIgnoreCase("make")){
             if(words.size() < 2 ) return "What do you want to cook? Please be specific.";
 
