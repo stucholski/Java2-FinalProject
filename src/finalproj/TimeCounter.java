@@ -1,5 +1,8 @@
 package finalproj;
 public class TimeCounter {
+    /**
+     * Class that creates a singleton time counter to keep track of gameplay seconds
+     */
     private static TimeCounter instance;
     private long startTime;
 

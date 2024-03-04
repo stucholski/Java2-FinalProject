@@ -1,6 +1,7 @@
 package finalproj;
 import java.time.LocalTime;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * This is the class that will be handling all the communication in the game. This is an immutable object
@@ -88,6 +89,23 @@ public final class Communications {
         }
 
         return message;
+    }
+
+    /**
+     * equals method to use object comparison
+     * @param obj
+     * @return
+     */
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Communications that = (Communications) obj;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash();
     }
 
 }

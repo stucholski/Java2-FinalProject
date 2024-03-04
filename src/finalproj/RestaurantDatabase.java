@@ -57,12 +57,6 @@ public class RestaurantDatabase {
                 stmt.executeUpdate("INSERT INTO Transactions VALUES (2,'Jefferson Family', 100)");
                 stmt.executeUpdate("INSERT INTO Transactions VALUES (3,'Jackson Family', 200)");
 
-                // give an employee a raise
-                //giveRaise(conn,1,5000);
-                //delete a transaction
-                //deleteTransaction(conn,3);
-
-
                 ResultSet rs = stmt.executeQuery("SELECT id, name, salary FROM Employees");
 
                 while (rs.next()) {
