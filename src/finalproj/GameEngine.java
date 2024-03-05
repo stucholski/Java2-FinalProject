@@ -9,6 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.*;
 
+import static finalproj.Customer.*;
+import static finalproj.Customer.upgradeCustomerExperience;
+
 public class GameEngine {
 
     final Logger log = LogManager.getLogger();
@@ -16,6 +19,7 @@ public class GameEngine {
     // Attributes to represent the game's state
     private ArrayList<Room> map;
     private Player player;
+    Customer gordon = Customer.createCustomer();
 
     // 3.1 Example of an unbound wildcard
     private List<?> verbs = new ArrayList<>(Arrays.asList("take", "drop", "cook", "look", "prepare", "make", "spaghetti", "serve", "inventory", "move", "go", "help"));
@@ -133,6 +137,7 @@ public class GameEngine {
 
 
 
+    //Made updates so that the players room is set to each room instead of all to kitchen.
     public Player getPlayer() {
         return player;
     }
@@ -144,20 +149,20 @@ public class GameEngine {
     }
 
     private String goPantry() {
-        Room kitchen = map.get(1);
-        player.setRoom(kitchen);
+        Room pantry = map.get(1);
+        player.setRoom(pantry);
         return lookAround();
     }
 
     private String goFreezer() {
-        Room kitchen = map.get(2);
-        player.setRoom(kitchen);
+        Room freezer = map.get(2);
+        player.setRoom(freezer);
         return lookAround();
     }
 
     private String goDining() {
-        Room kitchen = map.get(3);
-        player.setRoom(kitchen);
+        Room dining = map.get(3);
+        player.setRoom(dining);
         return lookAround();
     }
 
@@ -268,13 +273,26 @@ public class GameEngine {
                 See you next time.    
         """;
 
+
         // Supplier<String> msgDisplay = () -> exitMessage;
         System.out.println(exitMessage);
+
 
         System.exit(0);
     }
 
+    /**
+     * method to serveDish to the customer/critic
+     */
+    public void serveDish(){
+        System.out.println("The food critic is ready for his meal! Lets find out who it is.");
+        getCustomerName(gordon);
+        serveCustomer(gordon);
+        checkSatisfaction(gordon);
+        gordon = upgradeCustomerExperience(gordon);
+        serveCustomer(gordon);
 
+    }
     public String takeItem(String itemName) {
         Room currentRoom = player.getRoom();
         if (currentRoom.getItems().contains(itemName)) {
@@ -402,58 +420,60 @@ public class GameEngine {
      * @param //inputstr
      * @return
      */
+
     public String reviewInput(String inputStr) {
+        try {
+            log.info("Reviewing info.");
 
-        try{
-            log.info("Reviewing ingo.");
+            List<String> words = WordList(inputStr); // Assuming WordList splits the input into words
 
-        List<String> words = WordList(inputStr); // Assuming WordList splits the input into words
-
-
-        if (words.isEmpty()) {
-            return "You didn't type anything.";
-        }
-
-        String verb = words.get(0);
-        if (verb.equalsIgnoreCase("look")) {
-            return lookAround();
-        } else if (verb.equalsIgnoreCase("take")) {
-            if (words.size() < 2) {
-                return "What do you want to take?";
-            }
-            return takeItem(words.get(1));
-        } else if (verb.equalsIgnoreCase("drop")) {
-            if (words.size() < 2) {
-                return "What do you want to drop?";
-            }
-            return dropItem(words.get(1));
-        }else if (verb.equalsIgnoreCase("help")){
-            return Help();
-        }else if(verb.equalsIgnoreCase("cook") || verb.equalsIgnoreCase("prepare") || verb.equalsIgnoreCase("make")){
-            if(words.size() < 2 ) return "What do you want to cook? Please be specific.";
-
-            if(words.get(1).equalsIgnoreCase("spaghetti")){
-                return cookDish();
+            if (words.isEmpty()) {
+                return "You didn't type anything.";
             }
 
-        }else if (verb.equalsIgnoreCase("serve")){
-            return checkForWin();
-        } else if (verb.equalsIgnoreCase("inventory")) {
-            return checkInventory();
-        } else if (verb.equalsIgnoreCase("move") || verb.equalsIgnoreCase("go")) {
-            if (words.size() < 2) {
-                return "Where do you want to go?";
-            }
+            String verb = words.get(0);
+            if (verb.equalsIgnoreCase("look")) {
+                return lookAround();
+            } else if (verb.equalsIgnoreCase("take")) {
+                if (words.size() < 2) {
+                    return "What do you want to take?";
+                }
+                return takeItem(words.get(1));
+            } else if (verb.equalsIgnoreCase("drop")) {
+                if (words.size() < 2) {
+                    return "What do you want to drop?";
+                }
+                return dropItem(words.get(1));
+            } else if (verb.equalsIgnoreCase("help")) {
+                return Help();
+            } else if (verb.equalsIgnoreCase("cook") || verb.equalsIgnoreCase("prepare") || verb.equalsIgnoreCase("make")) {
+                if (words.size() < 2) return "What do you want to cook? Please be specific.";
 
-            if(words.get(1).equalsIgnoreCase("to")){
-                return movePlayer(words.get(2));
-            }else{
-                return movePlayer(words.get(1));
-            }
+                if (words.get(1).equalsIgnoreCase("spaghetti")) {
+                    return cookDish();
+                }
 
-        }
-        return "I don't understand what you want to do.";
-    }catch (Exception ex){
+                /**
+                 * Maybe the serve dish method can be incorporated here.
+                 */
+            } else if (verb.equalsIgnoreCase("serve")) {
+                return checkForWin();
+            } else if (verb.equalsIgnoreCase("inventory")) {
+                return checkInventory();
+            } else if (verb.equalsIgnoreCase("move") || verb.equalsIgnoreCase("go")) {
+                if (words.size() < 2) {
+                    return "Where do you want to go?";
+                }
+
+                if (words.get(1).equalsIgnoreCase("to")) {
+                    return movePlayer(words.get(2));
+                } else {
+                    return movePlayer(words.get(1));
+                }
+
+            }
+            return "I don't understand what you want to do.";
+        } catch (Exception ex) {
             log.error("Error trying to review input: " + ex.toString());
             return "error";
         }
