@@ -1,0 +1,2 @@
+02-28-2024 15:50:18.360 ERROR [finalproj.GameEngine] - Error trying to look around.
+02-28-2024 15:51:06.176 ERROR [finalproj.GameEngine] - java.lang.ArithmeticException: / by zero
