@@ -36,7 +36,8 @@ public class Customer {
     static Customer createCustomer() {
         Supplier<Customer> customerSupplier = () -> new Customer("Gordon Ramsey", 85);
         Customer customer = customerSupplier.get();
-        System.out.println("Customer: " + customer.getName() + ", Satisfaction: " + customer.getSatisfaction());
+        System.out.println("You have a very important customer, " + customer.getName() + ", with a " +
+                            "satisfaction rating of " + customer.getSatisfaction() + ". Make sure to impress him!") ;
         return customer;
     }
 

@@ -1,6 +1,6 @@
 package finalproj;
 
-import org.apache.derby.jdbc.EmbeddedDataSource;
+//import org.apache.derby.jdbc.EmbeddedDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -52,10 +52,10 @@ public class GameEngine {
      */
     private static final Scanner scanner = new Scanner(System.in);
 
-    public void giveEmployeeRaise(int employeeId) {
+    /*public void giveEmployeeRaise(int employeeId) {
         try {
-            EmbeddedDataSource ds = new EmbeddedDataSource();
-            ds.setDatabaseName("restaurant_database");
+            //EmbeddedDataSource ds = new EmbeddedDataSource();
+            //ds.setDatabaseName("restaurant_database");
 
             try (Connection connection = ds.getConnection()) {
                 // Ask the user for the raise amount
@@ -65,7 +65,7 @@ public class GameEngine {
                 double raiseAmount = getValidDoubleInput();
 
                 // Use a prepared statement to safely handle user input in the SQL query
-                String sql = "UPDATE Employees SET salary = salary + ? WHERE id = ?";
+                //String sql = "UPDATE Employees SET salary = salary + ? WHERE id = ?";
                 try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                     // Set parameters for the prepared statement
                     preparedStatement.setDouble(1, raiseAmount);
@@ -84,7 +84,7 @@ public class GameEngine {
         } catch (SQLException e) {
             log.error("Error giving employee a raise: " + e.getMessage(), e);
         }
-    }
+    }//*/
 
     // Helper method to get valid double input from the user
     private double getValidDoubleInput() {
@@ -205,7 +205,7 @@ public class GameEngine {
         //if user looks into the dinning room is asked to ender a raise for rick
         if (currentRoom.getName().equalsIgnoreCase("Dining")) {
             System.out.print("You see Rick the waiter working very hard and you decide he deserves a raise. ");
-            giveEmployeeRaise(1); // Ask for a raise for Rick
+           // giveEmployeeRaise(1); // Ask for a raise for Rick
         }
 
 
@@ -256,6 +256,8 @@ public class GameEngine {
         - 'take [item]': to collect an item in the room.
         - 'drop [item]': to drop an item in the room.
         - 'inventory': to check what items you have collected.
+        - 'cook [item]': to cook or prepare the dish with required items
+        - 'prepare [item]': to cook or prepare the dish with required items 
         - 'serve': to try to serve the collected items as a dish to the patron.
         - 'quit': to end the game.
         
@@ -343,20 +345,16 @@ public class GameEngine {
         List<String> inventory = player.getInventory();
         String invItems = inventory.toString();
         List<String> items = InvList(invItems);
+        FoodOrders foodOrders = new FoodOrders();
+
+
         if(items.isEmpty()){
             return "You should collect the required items to make the dish.";
         }else if (items.size() < 4){
             return "You don't have enough items to make the dish. Find the correct items.";
         }else if (items.size() > 4){
             return "You have too many items. Only add the ingredients you need to your inventory.";
-        }if (player.getInventory().containsAll(winItems)){
-            // (items.get(0).equals("sauce") || items.get(0).equals("noodles") || items.get(0).equals("plate") || items.get(0).equals("meat")) &&
-            //   (items.get(1).equals("sauce") || items.get(1).equals("noodles") || items.get(1).equals("plate") || items.get(1).equals("meat")) &&
-            //  (items.get(2).equals("sauce") || items.get(2).equals("noodles") || items.get(2).equals("plate") || items.get(2).equals("meat")) &&
-            //  (items.get(3).equals("sauce") || items.get(3).equals("noodles") || items.get(3).equals("plate") || items.get(3).equals("meat"))){
-
-            //return "Congratulations! You have collected enough ingredients to create a dish. \nSee you next time.";
-
+        }if (foodOrders.cookSpaghetti(player.getInventory()).get().equalsIgnoreCase("spaghetti")){
             // Cook Dish
             player.addToInventory("spaghetti");
             player.removeFromInventory("sauce");
@@ -366,6 +364,7 @@ public class GameEngine {
 
             return "Awesome! You made the best spaghetti I've ever tried. Congrats. Your dish is ready for the customer. ";
         }
+
         return "You don't have the right items to make the dish. Keep tyring!";
 
     }
