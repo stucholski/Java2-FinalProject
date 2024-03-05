@@ -1,19 +1,38 @@
 package finalproj;
 import java.time.LocalTime;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
- * This is the class that will be handling all the communication in the game.
+ * This is the class that will be handling all the communication in the game. This is an immutable object
  */
-public class Communications {
+public final class Communications {
+
+    private final String introMessage;
 
     /**
      * Returns the game introduction message based on time of day and language
      * @param locale the default locale of the user
      * @param localTime the default time of the user
      */
-    public void getIntroMessage(Locale locale, LocalTime localTime){
+    public Communications(Locale locale, LocalTime localTime) {
+        this.introMessage = buildIntroMessage(locale, localTime);
+    }
 
+    /**
+     * Returns the game introduction message.
+     */
+    public String getIntroMessage() {
+        return introMessage;
+    }
+
+    /**
+     * Builds the game introduction message based on time of day and language.
+     * @param locale the default locale of the user
+     * @param localTime the default time of the user
+     * @return the game introduction message
+     */
+    private String buildIntroMessage(Locale locale, LocalTime localTime) {
         String country = locale.getCountry();
         String language = locale.getLanguage();
 
@@ -30,8 +49,7 @@ public class Communications {
                     + "to deliver \nthe best food to our customers. ";
         }
 
-        System.out.println(message);
-
+        return message;
     }
 
     /**
@@ -41,7 +59,7 @@ public class Communications {
      * @param localTime the default time of the user
      * @return the specific time of day message
      */
-    private String getTimeOfDayGreeting(Locale locale, LocalTime localTime){
+    private String getTimeOfDayGreeting(Locale locale, LocalTime localTime) {
         String message = "";
 
         if(locale.getLanguage().equals("es")){
@@ -71,6 +89,23 @@ public class Communications {
         }
 
         return message;
+    }
+
+    /**
+     * equals method to use object comparison
+     * @param obj
+     * @return
+     */
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Communications that = (Communications) obj;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash();
     }
 
 }
