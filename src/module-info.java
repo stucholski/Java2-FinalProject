@@ -11,5 +11,5 @@ module Final_Project1 {
     requires java.sql;
     //requires derby;
     requires java.naming;
-    //requires derby;
+    requires derby;
 }

@@ -1,6 +1,6 @@
 package finalproj;
 
-//import org.apache.derby.jdbc.EmbeddedDataSource;
+import org.apache.derby.jdbc.EmbeddedDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -52,10 +52,10 @@ public class GameEngine {
      */
     private static final Scanner scanner = new Scanner(System.in);
 
-    /*public void giveEmployeeRaise(int employeeId) {
+    public void giveEmployeeRaise(int employeeId) {
         try {
-            //EmbeddedDataSource ds = new EmbeddedDataSource();
-            //ds.setDatabaseName("restaurant_database");
+            EmbeddedDataSource ds = new EmbeddedDataSource();
+            ds.setDatabaseName("restaurant_database");
 
             try (Connection connection = ds.getConnection()) {
                 // Ask the user for the raise amount
@@ -65,7 +65,7 @@ public class GameEngine {
                 double raiseAmount = getValidDoubleInput();
 
                 // Use a prepared statement to safely handle user input in the SQL query
-                //String sql = "UPDATE Employees SET salary = salary + ? WHERE id = ?";
+                String sql = "UPDATE Employees SET salary = salary + ? WHERE id = ?";
                 try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                     // Set parameters for the prepared statement
                     preparedStatement.setDouble(1, raiseAmount);
@@ -131,8 +131,6 @@ public class GameEngine {
         }catch (Exception ex){
             log.error("There was an error setting up the world.");
         }
-
-
     }
 
 
@@ -205,7 +203,7 @@ public class GameEngine {
         //if user looks into the dinning room is asked to ender a raise for rick
         if (currentRoom.getName().equalsIgnoreCase("Dining")) {
             System.out.print("You see Rick the waiter working very hard and you decide he deserves a raise. ");
-           // giveEmployeeRaise(1); // Ask for a raise for Rick
+            giveEmployeeRaise(1); // Ask for a raise for Rick
         }
 
 
