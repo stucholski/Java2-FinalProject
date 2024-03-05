@@ -18,6 +18,9 @@ public class GameEngine {
 
     // Attributes to represent the game's state
     private ArrayList<Room> map;
+
+    //starts the games time counter
+    TimeCounter timeCounter = TimeCounter.getInstance();
     private Player player;
     Customer gordon = Customer.createCustomer();
 
@@ -265,6 +268,10 @@ public class GameEngine {
         System.out.println(exitMessage);
 
 
+        long elapsedTime = timeCounter.getElapsedTime();
+        System.out.println("Elapsed Time: " + elapsedTime + " seconds");
+
+
         System.exit(0);
     }
 
@@ -272,12 +279,12 @@ public class GameEngine {
      * method to serveDish to the customer/critic
      */
     public void serveDish(){
-        System.out.println("The food critic is ready for his meal! Lets find out who it is.");
+        System.out.println("You see Chef Gordon waiting to be served.");
         getCustomerName(gordon);
         serveCustomer(gordon);
         checkSatisfaction(gordon);
         gordon = upgradeCustomerExperience(gordon);
-        serveCustomer(gordon);
+
 
     }
     public String takeItem(String itemName) {
@@ -363,6 +370,7 @@ public class GameEngine {
      * @return
      */
     public String checkForWin(){
+        serveDish();
         final String WINNING_DISH = "spaghetti";
         List<String> inventory = player.getInventory();
         String invItems = inventory.toString();
