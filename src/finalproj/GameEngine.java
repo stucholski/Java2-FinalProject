@@ -84,7 +84,7 @@ public class GameEngine {
         } catch (SQLException e) {
             log.error("Error giving employee a raise: " + e.getMessage(), e);
         }
-    }
+    }//*/
 
     // Helper method to get valid double input from the user
     private double getValidDoubleInput() {
@@ -131,8 +131,6 @@ public class GameEngine {
         }catch (Exception ex){
             log.error("There was an error setting up the world.");
         }
-
-
     }
 
 
@@ -256,6 +254,8 @@ public class GameEngine {
         - 'take [item]': to collect an item in the room.
         - 'drop [item]': to drop an item in the room.
         - 'inventory': to check what items you have collected.
+        - 'cook [item]': to cook or prepare the dish with required items
+        - 'prepare [item]': to cook or prepare the dish with required items 
         - 'serve': to try to serve the collected items as a dish to the patron.
         - 'quit': to end the game.
         
@@ -343,20 +343,18 @@ public class GameEngine {
         List<String> inventory = player.getInventory();
         String invItems = inventory.toString();
         List<String> items = InvList(invItems);
+        FoodOrders foodOrders = new FoodOrders();
+
+        if( player.getRoom().getName().equalsIgnoreCase("dining") )
+            return "You are not going to cook here. This is not the right room to be cooking." ;
+
         if(items.isEmpty()){
             return "You should collect the required items to make the dish.";
         }else if (items.size() < 4){
             return "You don't have enough items to make the dish. Find the correct items.";
         }else if (items.size() > 4){
             return "You have too many items. Only add the ingredients you need to your inventory.";
-        }if (player.getInventory().containsAll(winItems)){
-            // (items.get(0).equals("sauce") || items.get(0).equals("noodles") || items.get(0).equals("plate") || items.get(0).equals("meat")) &&
-            //   (items.get(1).equals("sauce") || items.get(1).equals("noodles") || items.get(1).equals("plate") || items.get(1).equals("meat")) &&
-            //  (items.get(2).equals("sauce") || items.get(2).equals("noodles") || items.get(2).equals("plate") || items.get(2).equals("meat")) &&
-            //  (items.get(3).equals("sauce") || items.get(3).equals("noodles") || items.get(3).equals("plate") || items.get(3).equals("meat"))){
-
-            //return "Congratulations! You have collected enough ingredients to create a dish. \nSee you next time.";
-
+        }if (foodOrders.cookSpaghetti(player.getInventory()).get().equalsIgnoreCase("spaghetti")){
             // Cook Dish
             player.addToInventory("spaghetti");
             player.removeFromInventory("sauce");
@@ -366,6 +364,7 @@ public class GameEngine {
 
             return "Awesome! You made the best spaghetti I've ever tried. Congrats. Your dish is ready for the customer. ";
         }
+
         return "You don't have the right items to make the dish. Keep tyring!";
 
     }

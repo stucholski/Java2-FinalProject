@@ -50,8 +50,6 @@ public class RestaurantGame {
 
             System.out.println(output);
 
-
-
         } while (!"quit".equals(input));
 
         //at the end of the game the elapsed time is shown to the user

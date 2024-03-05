@@ -40,12 +40,6 @@ public class Player  {
 	public List<String> getInventory() {
 		return new ArrayList<>(inventory);
 	}
-	/**public static void main (String [] args){
-	 Player1 player = new Player1("Hero",	);
-	 player.setName("Hero");
-	 player.setRoom("");
 
-	 System.out.println(player.name);
-	 }**/
 
 }
