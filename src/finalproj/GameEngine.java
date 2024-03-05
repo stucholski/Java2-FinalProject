@@ -345,6 +345,8 @@ public class GameEngine {
         List<String> items = InvList(invItems);
         FoodOrders foodOrders = new FoodOrders();
 
+        if( player.getRoom().getName().equalsIgnoreCase("dining") )
+            return "You are not going to cook here. This is not the right room to be cooking." ;
 
         if(items.isEmpty()){
             return "You should collect the required items to make the dish.";
