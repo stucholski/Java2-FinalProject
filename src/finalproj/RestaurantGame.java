@@ -30,7 +30,6 @@ public class RestaurantGame {
         BufferedReader in;
         String input;
         String output;
-        GameEngine engine = new GameEngine();
 
         log.info("Setting up the communications for the game.");
         Locale locale = Locale.getDefault();
@@ -38,6 +37,16 @@ public class RestaurantGame {
         Communications communications = new Communications(locale, localTime);
 
         in = new BufferedReader(new InputStreamReader(System.in));
+
+        communications.askPlayerName(locale);
+        String chefName = in.readLine();
+        while(chefName.length() < 2) {
+            System.out.println("Please type your name before proceeding... > ");
+            chefName = in.readLine();
+        }
+
+        GameEngine engine = new GameEngine(chefName);
+
 
         System.out.println(communications.getIntroMessage());
         //starts the games time counter
