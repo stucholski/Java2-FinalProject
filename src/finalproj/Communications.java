@@ -52,6 +52,18 @@ public final class Communications {
         return message;
     }
 
+    public void askPlayerName(Locale locale){
+
+        String language = locale.getLanguage();
+
+        if (language.equals("es")) {
+            System.out.print("\nAntes the empezar esta aventura, por favor, cual es tu nombre? ");
+        }else{
+            System.out.println("\nBefore we start this adventure, please tell us your name. ");
+        }
+
+    }
+
     /**
      * Returns the specific greeting based on time of day.
      * This is to be used with the game introduction message.

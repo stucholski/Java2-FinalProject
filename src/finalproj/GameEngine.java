@@ -96,7 +96,7 @@ public class GameEngine {
     }
 
 
-    public GameEngine(){
+    public GameEngine(String chefName){
         try{
             log.info("Creating rooms.");
             this.map = new ArrayList<Room>();
@@ -126,7 +126,9 @@ public class GameEngine {
 
             map.add(dining);
 
-            player = new Player("Chef", map.get(0));
+
+
+            player = new Player(chefName, map.get(0));
 
         }catch (Exception ex){
             log.error("There was an error setting up the world.");
@@ -180,22 +182,6 @@ public class GameEngine {
         }
     }
 
-    // Standard getters and setters
-/*    public ArrayList<Room> getMap() {
-        return map;
-    }
-
-    public void setMap(ArrayList<Room> map) {
-        this.map = map;
-    }
-   public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    public void movePlayerTo(Player p, Room r){
-        p.setRoom(r);
-    }
-*/
     private String lookAround() {
         Room currentRoom = player.getRoom();
         String description = currentRoom.getDescription();
@@ -251,6 +237,7 @@ public class GameEngine {
         Available commands:
         - 'look': to look around in the current room.
         - 'move [room]': to move to a different room. For example, 'move kitchen'.
+        - 'move to [room]': to move to a different room. For example, 'move kitchen'.
         - 'take [item]': to collect an item in the room.
         - 'drop [item]': to drop an item in the room.
         - 'inventory': to check what items you have collected.
@@ -268,10 +255,10 @@ public class GameEngine {
      */
     public void displayEnd(){
         String exitMessage = """
-                Congratulations! 
+                Congratulations %s!
                 You successfully served a dish of spaghetti to the patron.
-                See you next time.    
-        """;
+                See you next time.
+        """.formatted(player.getName());
 
 
         // Supplier<String> msgDisplay = () -> exitMessage;
